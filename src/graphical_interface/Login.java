@@ -2,6 +2,8 @@ package graphical_interface;
 
 import java.awt.EventQueue;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import database_management.SqliteStaffConnection;
 
@@ -30,6 +32,7 @@ public class Login {
 	private JTextField txtUsername;
 	private JPasswordField passwordField;
 	private JLabel lblNewLabel_2;
+	private JLabel queryoutputlabel;
 	
 	
 	/**
@@ -147,10 +150,39 @@ public class Login {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//This place will handle the results event
-				//queryoutputlabel variable will display errors if username and password are invalid
+				
+				if(txtUsername.getText().length() == 0 || passwordField.getText().length() == 0) {
+					queryoutputlabel.setText("All Fields Are Required");
+				}
+				else {
+					try {
+						String query = "select * from staff where username=? and password=?";
+						PreparedStatement pst = conn.prepareStatement(query);
+						pst.setString(1, txtUsername.getText());
+						pst.setString(2, passwordField.getText());
+						ResultSet rst = pst.executeQuery();
+						int count = 0;
+						
+						while(rst.next()) {
+							count++;
+						}
+						
+						if(count == 1) {
+							queryoutputlabel.setText("Valid username and password");
+						}
+						else {
+							queryoutputlabel.setText("Invalid username and password");
+						}
+						
+					}catch(Exception e1) {
+						e1.printStackTrace();
+					}
+					
+				}
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -225,7 +257,8 @@ public class Login {
 		lblNewLabel_3.setBounds(156, 138, 265, 32);
 		frmLoginToApplication.getContentPane().add(lblNewLabel_3);
 		
-		JLabel queryoutputlabel = new JLabel("");
+		queryoutputlabel = new JLabel("");
+		queryoutputlabel.setHorizontalAlignment(SwingConstants.CENTER);
 		queryoutputlabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		queryoutputlabel.setForeground(new Color(255, 0, 0));
 		queryoutputlabel.setBounds(172, 274, 244, 39);
