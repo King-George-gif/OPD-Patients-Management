@@ -17,4 +17,8 @@ public class Receptionist extends Staff {
 	public void AssignPatientsToNurse() {
 		
 	}
+	
+	public void GenerateNewFileForPatient() {
+		
+	}
 }
