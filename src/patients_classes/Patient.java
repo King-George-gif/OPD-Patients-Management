@@ -1,18 +1,28 @@
 package patients_classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+
+import database_management.SqlitePatientConnection;
+
 public class Patient {
 	private int patient_id;
 	private String firstname;
 	private String lastname;
 	private String place_of_residence;
-	private java.sql.Date date_of_birth;
+	private LocalDate date_of_birth;
 	private String sex;
 	private String phone_number;
 	private String emergency_contact;
 	private String relation_with_emergency_contact;
 	private String emergency_contact_name;
+	private int patient_folder_id;
+	Connection conn = null;
 	
-	Patient(String firstname, String lastname, String place_of_residence, java.sql.Date date_of_birth, String sex, 
+	
+	Patient(String firstname, String lastname, String place_of_residence, LocalDate date_of_birth, String sex, 
 			String phone_number, String emergency_contact, String relation_with_emergency_contact,
 			String emergency_contact_name){
 		this.firstname = firstname;
@@ -24,6 +34,22 @@ public class Patient {
 		this.emergency_contact = emergency_contact;
 		this.relation_with_emergency_contact = relation_with_emergency_contact;
 		this.emergency_contact_name = emergency_contact_name;
+		this.addPatientToDatabase();
+		this.patient_folder_id = assignPatientsFolder();
+	}
+	
+	public void addPatientToDatabase() {
+		try {
+			String query = "insert into patients (patient_id, firstname, lastname, Residence, date_of_birth, "
+					+ "sex, phone_number, Emergency_contact, Relation_with_emergency_contact,"
+					+ " emergency_contact_name) values (NULL, "+this.firstname+","+this.lastname+","+this.place_of_residence+","
+							+this.date_of_birth+ ", "+this.sex+", "+this.phone_number+","+this.emergency_contact+","
+									+ this.relation_with_emergency_contact+","+this.emergency_contact_name+")";
+			PreparedStatement pst = conn.prepareStatement(query);
+			pst.execute();
+		}catch(Exception exx) {
+			exx.printStackTrace();
+		}
 	}
 	
 	public int getPatientId() {
@@ -48,10 +74,10 @@ public class Patient {
 	public void setPlaceOfResidence(String place_of_residence) {
 		this.place_of_residence = place_of_residence;
 	}
-	public java.sql.Date getDateOfBirth(){
+	public LocalDate getDateOfBirth(){
 		return this.date_of_birth;
 	}
-	public void setDateOfBirth(java.sql.Date date_of_birth) {
+	public void setDateOfBirth(LocalDate date_of_birth) {
 		this.date_of_birth = date_of_birth;
 	}
 	public String getSex() {
@@ -83,6 +109,42 @@ public class Patient {
 	}
 	public void setEmergencyContactName(String emergency_contact_name) {
 		this.emergency_contact_name = emergency_contact_name;
+	}
+	
+	public int assignPatientsFolder() {
+		conn = SqlitePatientConnection.dbConnector();
+		int id = 0;
+		try {
+			String query = "select max(folder_id) from patients_folder";
+			PreparedStatement pst = conn.prepareStatement(query);
+			ResultSet rst = pst.executeQuery();
+			while(rst.next()) {
+				id = rst.getInt("max(folder_id)");
+			}
+			id++;
+			pst.close();
+			rst.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			String query = "insert into patients_folder (folder_id, patient) values (NULL, "+this.patient_id+")";
+			PreparedStatement pst = conn.prepareStatement(query);
+			pst.execute();
+			pst.close();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return id;
+		
+	}
+	
+	public int getPatientFolderId() {
+		return this.patient_folder_id;
 	}
 
 }
