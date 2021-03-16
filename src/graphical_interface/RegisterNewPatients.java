@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import patients_classes.Patient;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -13,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -103,7 +108,7 @@ public class RegisterNewPatients extends JFrame {
 		lblNewLabel_3.setBounds(108, 178, 218, 30);
 		contentPane.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Date Of Birth (YYYY-MM-DD) *");
+		JLabel lblNewLabel_4 = new JLabel("Date Of Birth (DD-MM-YYYY) *");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_4.setBounds(108, 219, 218, 30);
 		contentPane.add(lblNewLabel_4);
@@ -339,14 +344,20 @@ public class RegisterNewPatients extends JFrame {
 		JButton btnNewButton = new JButton("Register Patient");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {	
+			public void mouseClicked(MouseEvent e) {
 				test = istextFieldClean && istextField_1Clean && istextField_2Clean && istextField_3Clean && 
 						istextField_5Clean && istextField_6Clean && istextField_7Clean && iscomboBoxClean ;
-				if(!test) {
-					//there is an error
+				if(!test) {  // There exists an error
+					lblNewLabel_10.setText("The field(s) has error(s) in them");
 				}
 				else {
 					//Everything is good
+					lblNewLabel_10.setText("");
+					Patient patient = new Patient(textField.getText(), textField_1.getText(), textField_2.getText(), textField_3.getText(),
+							(String)comboBox.getSelectedItem(), textField_5.getText(), textField_6.getText(), textField_7.getText(),
+							textField_8.getText());
+					patient.addPatientToDatabase();
+					patient.assignPatientsFolder(patient.getPatientFirstName());
 				}
 				
 			}
