@@ -18,6 +18,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
+
+import staff_classes.NurseClass;
+
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
@@ -25,6 +28,7 @@ import java.awt.event.ItemEvent;
 public class Nurse extends JFrame {
 
 	private JPanel contentPane;
+	private NurseClass nurse;
 
 	/**
 	 * Launch the application.
@@ -32,12 +36,12 @@ public class Nurse extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Nurse frame = new Nurse();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Nurse frame = new Nurse();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 	}
@@ -45,7 +49,7 @@ public class Nurse extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Nurse() {
+	public Nurse(NurseClass nurse) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 580);
 		contentPane = new JPanel();
@@ -53,6 +57,7 @@ public class Nurse extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.nurse = nurse;
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -60,10 +65,10 @@ public class Nurse extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Welcome Nurse");
+		JLabel lblNewLabel_1 = new JLabel("Nurse "+this.nurse.getLastName());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 11, 184, 31);
+		lblNewLabel_1.setBounds(10, 11, 142, 31);
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton_2 = new JButton("Log Out");

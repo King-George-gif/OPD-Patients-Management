@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database_management.SqliteStaffConnection;
+import staff_classes.NurseClass;
 import staff_classes.ReceptionistClass;
 import staff_classes.Staff;
 
@@ -188,7 +189,9 @@ public class Login {
 								receptionist.setVisible(true);
 							}
 							else if(designation == 4) {
-								Nurse nurse = new Nurse();
+								//Nurse page
+								NurseClass worker = new NurseClass(firstname, lastname);
+								Nurse nurse = new Nurse(worker);
 								nurse.setVisible(true);
 							}
 							else if(designation == 5) {
