@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database_management.SqliteStaffConnection;
+import staff_classes.Staff;
 
 import javax.swing.JFrame;
 import java.awt.Color;
@@ -165,16 +166,42 @@ public class Login {
 						pst.setString(2, passwordField.getText());
 						ResultSet rst = pst.executeQuery();
 						int count = 0;
+						int designation = 0;
 						
 						while(rst.next()) {
 							count++;
+							designation = rst.getInt("designation");
 						}
 						
 						if(count == 1) {
+							
+							frmLoginToApplication.dispose();//Closing the login page
+							if(designation == 3) {
+								//Receptionist page
+								Receptionist receptionist = new Receptionist();
+								receptionist.setVisible(true);
+							}
+							else if(designation == 4) {
+								Nurse nurse = new Nurse();
+								nurse.setVisible(true);
+							}
+							else if(designation == 5) {
+								//Doctor page
+							}
+							else if(designation == 6) {
+								//lab technician page
+							}
+							else if(designation == 7) {
+								//pharmacist page
+							}
+							else if(designation == 8) {
+								//accountant page
+							}
+							
 							queryoutputlabel.setText("Valid username and password");
 						}
 						else {
-							queryoutputlabel.setText("Invalid username and password");
+							queryoutputlabel.setText("Invalid username or password");
 						}
 						
 					}catch(Exception e1) {
