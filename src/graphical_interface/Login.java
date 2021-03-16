@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database_management.SqliteStaffConnection;
+import staff_classes.ReceptionistClass;
 import staff_classes.Staff;
 
 import javax.swing.JFrame;
@@ -167,10 +168,14 @@ public class Login {
 						ResultSet rst = pst.executeQuery();
 						int count = 0;
 						int designation = 0;
+						String firstname = "";
+						String lastname = "";
 						
 						while(rst.next()) {
 							count++;
 							designation = rst.getInt("designation");
+							firstname = rst.getString("firstname");
+							lastname = rst.getString("lastname");
 						}
 						
 						if(count == 1) {
@@ -178,7 +183,8 @@ public class Login {
 							frmLoginToApplication.dispose();//Closing the login page
 							if(designation == 3) {
 								//Receptionist page
-								Receptionist receptionist = new Receptionist();
+								ReceptionistClass worker = new ReceptionistClass(firstname, lastname);
+								Receptionist receptionist = new Receptionist(worker);
 								receptionist.setVisible(true);
 							}
 							else if(designation == 4) {

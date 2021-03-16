@@ -2,9 +2,13 @@ package graphical_interface;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import staff_classes.ReceptionistClass;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -20,6 +24,7 @@ import java.awt.event.MouseEvent;
 public class Receptionist extends JFrame {
 
 	private JPanel contentPane;
+	private ReceptionistClass receptionist;
 
 	/**
 	 * Launch the application.
@@ -27,12 +32,12 @@ public class Receptionist extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Receptionist frame = new Receptionist();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Receptionist frame = new Receptionist();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 	}
@@ -40,7 +45,7 @@ public class Receptionist extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Receptionist() {
+	public Receptionist(ReceptionistClass recep) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 580);
 		contentPane = new JPanel();
@@ -48,17 +53,17 @@ public class Receptionist extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		this.receptionist = recep;
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(10, 11, 814, 47);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Hello Receptionist");
+		JLabel lblNewLabel = new JLabel("Receptionist "+this.receptionist.getLastName());
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 9, 145, 25);
+		lblNewLabel.setBounds(10, 9, 123, 25);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_3 = new JButton("Log Out");

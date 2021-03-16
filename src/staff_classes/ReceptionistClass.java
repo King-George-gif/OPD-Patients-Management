@@ -1,8 +1,7 @@
 package staff_classes;
 
-public class Receptionist extends Staff {
-	
-	Receptionist(String firstname, String lastname){
+public class ReceptionistClass extends Staff{
+	public ReceptionistClass(String firstname, String lastname){
 		super(firstname, lastname);
 	}
 	
@@ -21,4 +20,5 @@ public class Receptionist extends Staff {
 	public void GenerateNewFileForPatient() {
 		
 	}
+
 }
