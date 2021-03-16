@@ -35,19 +35,29 @@ public class Patient {
 		this.emergency_contact = emergency_contact;
 		this.relation_with_emergency_contact = relation_with_emergency_contact;
 		this.emergency_contact_name = emergency_contact_name;
-		this.addPatientToDatabase();
-		this.patient_folder_id = assignPatientsFolder();
+
 	}
 	
 	public void addPatientToDatabase() {
+		conn = SqlitePatientConnection.dbConnector();
+		
 		try {
-			String query = "insert into patients (patient_id, firstname, lastname, Residence, date_of_birth, "
-					+ "sex, phone_number, Emergency_contact, Relation_with_emergency_contact,"
-					+ " emergency_contact_name) values (NULL, "+this.firstname+","+this.lastname+","+this.place_of_residence+","
-							+this.date_of_birth+ ", "+this.sex+", "+this.phone_number+","+this.emergency_contact+","
-									+ this.relation_with_emergency_contact+","+this.emergency_contact_name+")";
+			String query = "insert into patients (patient_id,firstname,lastname,Residence,date_of_birth,"
+					+ "sex,phone_number,Emergency_contact,Relation_with_emergency_contact,"
+					+ "Emergency_contact_name) values (NULL,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pst = conn.prepareStatement(query);
+			pst.setString(1, this.firstname);
+			pst.setString(2, this.lastname);
+			pst.setString(3, this.place_of_residence);
+			pst.setString(4, this.date_of_birth);
+			pst.setString(5, this.sex);
+			pst.setString(6, this.phone_number);
+			pst.setString(7, this.emergency_contact);
+			pst.setString(8, this.relation_with_emergency_contact);
+			pst.setString(9, this.emergency_contact_name);
+			
 			pst.execute();
+			pst.close();
 		}catch(Exception exx) {
 			exx.printStackTrace();
 		}
@@ -112,17 +122,17 @@ public class Patient {
 		this.emergency_contact_name = emergency_contact_name;
 	}
 	
-	public int assignPatientsFolder() {
+	public void assignPatientsFolder(String firstname) {
+		PreparedStatement pst = null;
 		conn = SqlitePatientConnection.dbConnector();
 		int id = 0;
 		try {
-			String query = "select max(folder_id) from patients_folder";
-			PreparedStatement pst = conn.prepareStatement(query);
+			String query = "select patient_id from patients where firstname='"+firstname+"'";
+			pst = conn.prepareStatement(query);
 			ResultSet rst = pst.executeQuery();
 			while(rst.next()) {
-				id = rst.getInt("max(folder_id)");
+				id = rst.getInt("patient_id");
 			}
-			id++;
 			pst.close();
 			rst.close();
 			
@@ -132,15 +142,15 @@ public class Patient {
 		
 		
 		try {
-			String query = "insert into patients_folder (folder_id, patient) values (NULL, "+this.patient_id+")";
-			PreparedStatement pst = conn.prepareStatement(query);
+			String query1 = "insert into patients_folder (folder_id, patient) values (NULL,?)";
+			pst = conn.prepareStatement(query1);
+			pst.setInt(1, id);
 			pst.execute();
 			pst.close();
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		return id;
 		
 	}
 	
