@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.Date;
 
 import database_management.SqlitePatientConnection;
 
@@ -12,7 +13,7 @@ public class Patient {
 	private String firstname;
 	private String lastname;
 	private String place_of_residence;
-	private LocalDate date_of_birth;
+	private String date_of_birth;
 	private String sex;
 	private String phone_number;
 	private String emergency_contact;
@@ -22,7 +23,7 @@ public class Patient {
 	Connection conn = null;
 	
 	
-	Patient(String firstname, String lastname, String place_of_residence, LocalDate date_of_birth, String sex, 
+	public Patient(String firstname, String lastname, String place_of_residence, String date_of_birth, String sex, 
 			String phone_number, String emergency_contact, String relation_with_emergency_contact,
 			String emergency_contact_name){
 		this.firstname = firstname;
@@ -74,10 +75,10 @@ public class Patient {
 	public void setPlaceOfResidence(String place_of_residence) {
 		this.place_of_residence = place_of_residence;
 	}
-	public LocalDate getDateOfBirth(){
+	public String getDateOfBirth(){
 		return this.date_of_birth;
 	}
-	public void setDateOfBirth(LocalDate date_of_birth) {
+	public void setDateOfBirth(String date_of_birth) {
 		this.date_of_birth = date_of_birth;
 	}
 	public String getSex() {
