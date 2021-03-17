@@ -8,11 +8,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.JToggleButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -80,6 +87,16 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_2.setBackground(new Color(0, 128, 128));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(JOptionPane.showConfirmDialog(null,"Are you sure you want to log out?", "Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+					JComponent comp = (JComponent) e.getSource();
+					  Window win = SwingUtilities.getWindowAncestor(comp);
+					  win.dispose();
+					Login login = new Login();
+					login.frmLoginToApplication.setVisible(true);
+				}
 			}
 		});
 		btnNewButton_2.setForeground(Color.WHITE);

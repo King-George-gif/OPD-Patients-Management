@@ -30,7 +30,7 @@ import java.awt.event.FocusEvent;
 
 public class Login {
 
-	private JFrame frmLoginToApplication;
+	public JFrame frmLoginToApplication;
 	public Connection conn = null;
 	private JTextField txtUsername;
 	private JPasswordField passwordField;

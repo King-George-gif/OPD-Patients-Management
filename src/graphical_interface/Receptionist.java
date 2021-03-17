@@ -12,12 +12,18 @@ import staff_classes.ReceptionistClass;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JToggleButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -75,6 +81,16 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_3.setBackground(new Color(0, 128, 128));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(JOptionPane.showConfirmDialog(null,"Are you sure you want to log out?", "Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+					JComponent comp = (JComponent) e.getSource();
+					  Window win = SwingUtilities.getWindowAncestor(comp);
+					  win.dispose();
+					Login login = new Login();
+					login.frmLoginToApplication.setVisible(true);
+				}
 			}
 		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 14));
