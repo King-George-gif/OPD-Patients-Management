@@ -10,8 +10,13 @@ import javax.swing.border.EmptyBorder;
 import patients_classes.Patient;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -22,6 +27,7 @@ import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -66,12 +72,12 @@ public class RegisterNewPatients extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					RegisterNewPatients frame = new RegisterNewPatients();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				try {
+//					RegisterNewPatients frame = new RegisterNewPatients();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 	}
@@ -367,7 +373,16 @@ public class RegisterNewPatients extends JFrame {
 							(String)comboBox.getSelectedItem(), textField_5.getText(), textField_6.getText(), textField_7.getText(),
 							textField_8.getText());
 					patient.addPatientToDatabase();
+					JOptionPane.showMessageDialog(null, "Patient Successfully Registered");
 					patient.assignPatientsFolder(patient.getPatientFirstName());
+					JOptionPane.showMessageDialog(null, "Folder Successfully Created For Patient");
+					
+					JComponent comp = (JComponent) e.getSource();
+					  Window win = SwingUtilities.getWindowAncestor(comp);  
+					  win.dispose();    //dispose off this frame
+					  
+					  
+					
 				}
 				
 			}
