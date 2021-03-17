@@ -83,6 +83,7 @@ public class RegisterNewPatients extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 580);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -94,48 +95,57 @@ public class RegisterNewPatients extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("First Name *");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(108, 96, 218, 30);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1.setBounds(79, 94, 242, 30);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Second Name *");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(108, 137, 218, 30);
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_2.setBounds(79, 137, 242, 30);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Place Of Residence *");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(108, 178, 218, 30);
+		lblNewLabel_3.setForeground(Color.WHITE);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3.setBounds(79, 178, 242, 30);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Date Of Birth (DD-MM-YYYY) *");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_4.setBounds(108, 219, 218, 30);
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_4.setBounds(79, 219, 242, 30);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Gender*");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_5.setBounds(108, 260, 218, 30);
+		lblNewLabel_5.setForeground(Color.WHITE);
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_5.setBounds(79, 260, 242, 30);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Phone Number (0XXXXXXXXX)");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_6.setBounds(108, 301, 218, 30);
+		lblNewLabel_6.setForeground(Color.WHITE);
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_6.setBounds(79, 301, 242, 30);
 		contentPane.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("Emergency Contact Number");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_7.setBounds(108, 342, 218, 30);
+		lblNewLabel_7.setForeground(Color.WHITE);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_7.setBounds(79, 342, 242, 30);
 		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Emergency Contact Relationship");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_8.setBounds(108, 383, 218, 30);
+		lblNewLabel_8.setForeground(Color.WHITE);
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_8.setBounds(79, 383, 242, 30);
 		contentPane.add(lblNewLabel_8);
 		
 		JLabel lblNewLabel_9 = new JLabel("Emergency Contact Name");
-		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_9.setBounds(108, 424, 218, 30);
+		lblNewLabel_9.setForeground(Color.WHITE);
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_9.setBounds(79, 422, 242, 30);
 		contentPane.add(lblNewLabel_9);
 		
 		textField = new JTextField();
@@ -373,11 +383,11 @@ public class RegisterNewPatients extends JFrame {
 		lblNewLabel_10.setBounds(352, 462, 227, 27);
 		contentPane.add(lblNewLabel_10);
 		
-		lblNewLabel_11 = new JLabel("All Fields marked * Are Required Fields");
+		lblNewLabel_11 = new JLabel("All Fields marked * Are Required");
 		lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_11.setForeground(Color.DARK_GRAY);
-		lblNewLabel_11.setBounds(352, 64, 242, 21);
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_11.setForeground(Color.WHITE);
+		lblNewLabel_11.setBounds(312, 64, 282, 21);
 		contentPane.add(lblNewLabel_11);
 		
 		firstNameError = new JLabel("");
