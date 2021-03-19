@@ -19,7 +19,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
@@ -27,6 +30,7 @@ import java.sql.ResultSet;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 public class EditPatientProfile extends Search {
 
@@ -196,6 +200,9 @@ public class EditPatientProfile extends Search {
 					}catch(Exception ec) {
 						ec.printStackTrace();
 					}
+					JComponent comp = (JComponent) e.getSource();
+					  Window win = SwingUtilities.getWindowAncestor(comp);  
+					  win.dispose();    //dispose off this frame
 				}
 				
 			}
