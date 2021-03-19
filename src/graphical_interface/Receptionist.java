@@ -212,6 +212,11 @@ public class Receptionist extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_2.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CreatePatientFile frame = new CreatePatientFile();
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.setBorder(null);
