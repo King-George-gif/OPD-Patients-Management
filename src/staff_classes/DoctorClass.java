@@ -1,7 +1,7 @@
 package staff_classes;
 
-public class Doctor extends Staff{
-	Doctor(String firstname, String lastname){
+public class DoctorClass extends Staff {
+	public DoctorClass(String firstname, String lastname){
 		super(firstname, lastname);
 	}
 	
