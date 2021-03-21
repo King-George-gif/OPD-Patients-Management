@@ -20,6 +20,8 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,6 +53,14 @@ public class AddVitalsToPatientFile extends Search {
 				}
 			}
 		});
+	}
+	
+	public String TodaysDate() {
+		Calendar cal = new GregorianCalendar();
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int month = cal.get(Calendar.MONTH)+ 1;
+		int year = cal.get(Calendar.YEAR);
+		return ""+day+"-"+month+"-"+year;
 	}
 
 	/**
@@ -123,7 +133,7 @@ public class AddVitalsToPatientFile extends Search {
 				
 				try {
 					connection = SqlitePatientConnection.dbConnector();
-					String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID= "+folder_id;
+					String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID= "+folder_id +" and date_created='"+TodaysDate()+"'";
 					PreparedStatement pstm = connection.prepareStatement(query1);
 					pstm.execute();
 					JOptionPane.showMessageDialog(null, "Vitals has been successfully added to Patient File");
