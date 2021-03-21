@@ -1,6 +1,5 @@
 package graphical_interface;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -22,13 +21,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-
 import staff_classes.NurseClass;
 
-import javax.swing.event.ChangeEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
@@ -199,6 +193,11 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_1.setBackground(new Color(0, 128, 128));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				EditPatientVitalsInfo frame = new EditPatientVitalsInfo();
+				frame.setVisible(true);
 			}
 		});
 		btnNewButton_1.setForeground(Color.WHITE);
