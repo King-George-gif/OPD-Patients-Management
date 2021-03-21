@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database_management.SqliteStaffConnection;
+import staff_classes.DoctorClass;
 import staff_classes.NurseClass;
 import staff_classes.ReceptionistClass;
 import staff_classes.Staff;
@@ -196,6 +197,9 @@ public class Login {
 							}
 							else if(designation == 5) {
 								//Doctor page
+								DoctorClass worker = new DoctorClass(firstname, lastname);
+								Doctor doctor = new Doctor(worker);
+								doctor.setVisible(true);
 							}
 							else if(designation == 6) {
 								//lab technician page
