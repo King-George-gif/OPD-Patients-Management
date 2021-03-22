@@ -66,10 +66,9 @@ public class Nurse extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Nurse "+this.nurse.getLastName());
+		JLabel lblNewLabel_1 = new JLabel("Welcome Nurse "+this.nurse.getLastName());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 11, 142, 31);
+		lblNewLabel_1.setBounds(10, 11, 223, 31);
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton_2 = new JButton("Log Out");
