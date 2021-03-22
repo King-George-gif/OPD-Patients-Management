@@ -160,6 +160,11 @@ public class Doctor extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_4.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PrescribeDrugsForPatient frame = new PrescribeDrugsForPatient();
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_4.setBorder(null);
 		btnNewButton_4.setForeground(Color.WHITE);
