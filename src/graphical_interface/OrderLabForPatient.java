@@ -28,80 +28,33 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class OrderLabForPatient extends Search {
+public class OrderLabForPatient extends Search2 {
 
 	private JPanel contentPane;
 	private JLabel lblNewLabel, lblNewLabel_1,lblNewLabel_2,lblNewLabel_3,lblNewLabel_4;
 	private JEditorPane editorPane;
-	private int folder_id = -1;
-	private int PID = -1;
-
-	/**
-	 * Launch the application.
-	 */
 
 	
-	public void PopulateFirstNameandLastNameField() {
-		try {
-			connection = SqlitePatientConnection.dbConnector();
-			int row = table.getSelectedRow();
-			PID = (int)table.getModel().getValueAt(row, 0);
-			String query = "select firstname,lastname from patients where patient_id = "+PID;
-			PreparedStatement pst = connection.prepareStatement(query);
-			ResultSet rst = pst.executeQuery();
-			
-			while(rst.next()) {
-				lblNewLabel_4.setText(rst.getString("firstname") + " "+ rst.getString("lastname"));
-			}
-			rst.close();
-			pst.close();
-			
-		}catch(Exception et) {
-			et.printStackTrace();
-		}
-	}
-	
-	public String TodaysDate() {
-		Calendar cal = new GregorianCalendar();
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int month = cal.get(Calendar.MONTH)+ 1;
-		int year = cal.get(Calendar.YEAR);
-		return ""+day+"-"+month+"-"+year;
-	}
-	
-	public int getFolderID() {
-		PreparedStatement pst = null;
-		ResultSet rst = null;
-		int folder_id = -1;
-		try {
+	public void PopulateFirstAndLastName() {
 		int row = table.getSelectedRow();
-		int PID = (int)table.getModel().getValueAt(row, 0);
-		String firstname = (String)table.getModel().getValueAt(row, 1);
-		String lastname = (String)table.getModel().getValueAt(row, 2);
-		if(JOptionPane.showConfirmDialog(null,"Add Labs To Patient With \n First Name = "+firstname+" \n and Last Name = "+lastname+" ","Vitals Information Edit Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
-			connection = SqlitePatientConnection.dbConnector();
-			String query = "select folder_id from patients_folder where patient="+PID;
-			pst = connection.prepareStatement(query);
-			rst = pst.executeQuery();
-			while(rst.next()) {
-				folder_id = rst.getInt("folder_id");	
-			}
-			pst.close();
-			rst.close();			
+		this.setPatientID((int)table.getModel().getValueAt(row, 0));
+		this.setFirstName((String)table.getModel().getValueAt(row, 1));
+		this.setLastName((String)table.getModel().getValueAt(row, 2));
+		lblNewLabel_4.setText(this.getFirstName()+" "+this.getLastName());
+	}
+	
+	public void DoTheMainWork() {
+		if(JOptionPane.showConfirmDialog(null,"Add Lab(s) to Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+			SetTheFolderID();
+			addLabToPatientFile();
 		}
-		return folder_id;
 		
-		}catch(Exception ee) {
-			JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
-			ee.printStackTrace();
-			return -1;
-		}
 	}
 	
 	public void addLabToPatientFile() {
 		try {
 			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set prescribed_drugs='"+editorPane.getText()+"' where folderID= "+folder_id +" and date_created='"+TodaysDate()+"'";
+			String query1 = "update folder_files set prescribed_drugs='"+editorPane.getText()+"' where folderID= "+this.getFolderID() +" and date_created='"+this.TodaysDate()+"'";
 			PreparedStatement pstm = connection.prepareStatement(query1);
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Labs has been successfully added to Patient File");
@@ -171,8 +124,7 @@ public class OrderLabForPatient extends Search {
 				if(lblNewLabel_4.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Search And Select For Patient In The Left Pane First.");
 				}else {
-					folder_id = getFolderID();
-					addLabToPatientFile();
+					DoTheMainWork();
 					JComponent comp = (JComponent) e.getSource();
 					  Window win = SwingUtilities.getWindowAncestor(comp);  
 					  win.dispose();    //dispose off this frame
@@ -186,7 +138,7 @@ public class OrderLabForPatient extends Search {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PopulateFirstNameandLastNameField();
+				PopulateFirstAndLastName();
 			}
 		});
 		

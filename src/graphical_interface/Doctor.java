@@ -46,7 +46,7 @@ public class Doctor extends JFrame {
 	 * Create the frame.
 	 */
 	public Doctor(DoctorClass doctor) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 580);
 		this.doctor = doctor;
 		contentPane = new JPanel();
@@ -144,7 +144,7 @@ public class Doctor extends JFrame {
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.setBackground(new Color(0, 128, 128));
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_2.setBounds(10, 23, 422, 42);
+		btnNewButton_2.setBounds(10, 23, 387, 42);
 		panel_2.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("ORDER/REQUEST LAB(S) FOR PATIENT");
@@ -167,7 +167,7 @@ public class Doctor extends JFrame {
 		btnNewButton_3.setForeground(Color.WHITE);
 		btnNewButton_3.setBackground(new Color(0, 128, 128));
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_3.setBounds(10, 90, 422, 42);
+		btnNewButton_3.setBounds(10, 90, 387, 42);
 		panel_2.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("PRESCRIBE DRUGS FOR PATIENT");
@@ -190,7 +190,7 @@ public class Doctor extends JFrame {
 		btnNewButton_4.setForeground(Color.WHITE);
 		btnNewButton_4.setBackground(new Color(0, 128, 128));
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_4.setBounds(10, 156, 422, 42);
+		btnNewButton_4.setBounds(10, 156, 387, 42);
 		panel_2.add(btnNewButton_4);
 		
 		JButton btnNewButton_5 = new JButton("VIEW PATIENT DIAGNOSIS/HEALTH HISTORY");
@@ -208,7 +208,25 @@ public class Doctor extends JFrame {
 		btnNewButton_5.setForeground(Color.WHITE);
 		btnNewButton_5.setBackground(new Color(0, 128, 128));
 		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_5.setBounds(10, 229, 422, 42);
+		btnNewButton_5.setBounds(10, 276, 387, 42);
 		panel_2.add(btnNewButton_5);
+		
+		JButton btnNewButton_6 = new JButton("EDIT/VIEW MY NOTES IN PATIENT FILE");
+		btnNewButton_6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton_6.setBackground(new Color(0, 206, 209));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnNewButton_6.setBackground(new Color(0, 128, 128));
+			}
+		});
+		btnNewButton_6.setBorder(null);
+		btnNewButton_6.setForeground(Color.WHITE);
+		btnNewButton_6.setBackground(new Color(0, 128, 128));
+		btnNewButton_6.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton_6.setBounds(10, 217, 387, 41);
+		panel_2.add(btnNewButton_6);
 	}
 }

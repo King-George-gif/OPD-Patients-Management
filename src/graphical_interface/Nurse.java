@@ -51,7 +51,7 @@ public class Nurse extends JFrame {
 	 * Create the frame.
 	 */
 	public Nurse(NurseClass nurse) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 580);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 128, 128));

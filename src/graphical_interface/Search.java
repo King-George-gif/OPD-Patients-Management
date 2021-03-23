@@ -142,14 +142,15 @@ public class Search extends JFrame {
 		genderfiltertext.setBounds(145, 157, 134, 22);
 		panel.add(genderfiltertext);
 		
+		separator = new JSeparator();
+		separator.setBounds(10, 246, 593, 9);
+		panel.add(separator);
+		
 		phonenumberfiltertext = new JTextField();
 		phonenumberfiltertext.setBounds(145, 184, 134, 20);
 		panel.add(phonenumberfiltertext);
 		phonenumberfiltertext.setColumns(10);
 		
-		separator = new JSeparator();
-		separator.setBounds(10, 246, 593, 9);
-		panel.add(separator);
 		
 		lblNewLabel_2 = new JLabel("Search Results:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));

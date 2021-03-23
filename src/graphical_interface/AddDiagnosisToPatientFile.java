@@ -28,7 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class AddDiagnosisToPatientFile extends Search {
+public class AddDiagnosisToPatientFile extends Search2 {
 
 	private JPanel contentPane;
 	private JEditorPane editorPane;
@@ -39,68 +39,22 @@ public class AddDiagnosisToPatientFile extends Search {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private int PID = -1;
-	Connection conn = null;
-	private int folder_id = -1;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-//				try {
-//					AddDiagnosisToPatientFile frame = new AddDiagnosisToPatientFile();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
+
+	public void DoTheMainWork() {
+		SetTheFolderID();
+		addDiagnosisNoteToPatientFile();
 	}
-	
-	public String TodaysDate() {
-		Calendar cal = new GregorianCalendar();
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int month = cal.get(Calendar.MONTH)+ 1;
-		int year = cal.get(Calendar.YEAR);
-		return ""+day+"-"+month+"-"+year;
-	}
-	
-	public int getFolderID() {
-		PreparedStatement pst = null;
-		ResultSet rst = null;
-		int folder_id = -1;
-		try {
-		int row = table.getSelectedRow();
-		int PID = (int)table.getModel().getValueAt(row, 0);
-		String firstname = (String)table.getModel().getValueAt(row, 1);
-		String lastname = (String)table.getModel().getValueAt(row, 2);
-		if(JOptionPane.showConfirmDialog(null,"Add Diagnosis Note To Patient With \n First Name = "+firstname+" \n and Last Name = "+lastname+" ","Vitals Information Edit Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
-			connection = SqlitePatientConnection.dbConnector();
-			String query = "select folder_id from patients_folder where patient="+PID;
-			pst = connection.prepareStatement(query);
-			rst = pst.executeQuery();
-			while(rst.next()) {
-				folder_id = rst.getInt("folder_id");	
-			}
-			pst.close();
-			rst.close();			
-		}
-		return folder_id;
-		
-		}catch(Exception ee) {
-			JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
-			ee.printStackTrace();
-			return -1;
-		}
-	}
+
 	
 	
 	public void addDiagnosisNoteToPatientFile() {
 		try {
 			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set Diagnosis_information='"+editorPane.getText()+"' where folderID= "+folder_id +" and date_created='"+TodaysDate()+"'";
+			String query1 = "update folder_files set Diagnosis_information='"+editorPane.getText()+"' where folderID= "+this.getFolderID() +" and date_created='"+this.TodaysDate()+"'";
 			PreparedStatement pstm = connection.prepareStatement(query1);
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Diagnosis has been successfully added to Patient File");
@@ -112,24 +66,13 @@ public class AddDiagnosisToPatientFile extends Search {
 		}
 	}
 	
-	public void PopulateFirstNameandLastNameField() {
-		try {
-			connection = SqlitePatientConnection.dbConnector();
-			int row = table.getSelectedRow();
-			PID = (int)table.getModel().getValueAt(row, 0);
-			String query = "select firstname,lastname from patients where patient_id = "+PID;
-			PreparedStatement pst = connection.prepareStatement(query);
-			ResultSet rst = pst.executeQuery();
-			
-			while(rst.next()) {
-				lblNewLabel_4.setText(rst.getString("firstname") + " "+ rst.getString("lastname"));
-			}
-			rst.close();
-			pst.close();
-			
-		}catch(Exception et) {
-			et.printStackTrace();
-		}
+	public void PopulateFirstAndLastName() {
+		
+		int row = table.getSelectedRow();
+		this.setPatientID((int)table.getModel().getValueAt(row, 0));
+		this.setFirstName((String)table.getModel().getValueAt(row, 1));
+		this.setLastName((String)table.getModel().getValueAt(row, 2));
+		lblNewLabel_4.setText(this.getFirstName()+" "+this.getLastName());		
 	}
 
 	/**
@@ -176,8 +119,7 @@ public class AddDiagnosisToPatientFile extends Search {
 				if(lblNewLabel_4.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Search And Select For Patient In The Left Pane.");
 				}else {
-					folder_id = getFolderID();
-					addDiagnosisNoteToPatientFile();
+					DoTheMainWork();
 					JComponent comp = (JComponent) e.getSource();
 					  Window win = SwingUtilities.getWindowAncestor(comp);  
 					  win.dispose();    //dispose off this frame
@@ -207,7 +149,7 @@ public class AddDiagnosisToPatientFile extends Search {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PopulateFirstNameandLastNameField();
+				PopulateFirstAndLastName();
 			}
 		});
 		
