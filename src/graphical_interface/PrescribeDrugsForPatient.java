@@ -25,7 +25,7 @@ import database_management.SqlitePatientConnection;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class PrescribeDrugsForPatient extends Search2 {
+public class PrescribeDrugsForPatient extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblNewLabel_2;
@@ -35,30 +35,33 @@ public class PrescribeDrugsForPatient extends Search2 {
 	private JLabel lblNewLabel_1;
 	private JButton btnNewButton;
 	private JEditorPane editorPane;
+	JPanel panel;
+	Search search = new Search();
+	
 
 	public void DoTheMainWork() {
-		if(JOptionPane.showConfirmDialog(null,"Add Vitals to Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
-			SetTheFolderID();
+		if(JOptionPane.showConfirmDialog(null,"Add Drugs to Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+			search.SetTheFolderID();
 			addDrugsToPatientFile();
 		}
 		
 	}
 	
 	public void PopulateFirstAndLastName() {
-		int row = table.getSelectedRow();
-		this.setPatientID((int)table.getModel().getValueAt(row, 0));
-		this.setFirstName((String)table.getModel().getValueAt(row, 1));
-		this.setLastName((String)table.getModel().getValueAt(row, 2));
-		lblNewLabel_4.setText(this.getFirstName()+" "+this.getLastName());
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2));
+		lblNewLabel_4.setText(search.getFirstName()+" "+search.getLastName());
 	}
 	
 	
 	
 	public void addDrugsToPatientFile() {
 		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set prescribed_drugs='"+editorPane.getText()+"' where folderID= "+this.getFolderID()+" and date_created='"+this.TodaysDate()+"'";
-			PreparedStatement pstm = connection.prepareStatement(query1);
+			search.connection = SqlitePatientConnection.dbConnector();
+			String query1 = "update folder_files set prescribed_drugs='"+editorPane.getText()+"' where folderID= "+search.getFolderID()+" and date_created='"+search.TodaysDate()+"'";
+			PreparedStatement pstm = search.connection.prepareStatement(query1);
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Drugs has been successfully added to Patient File");
 			pstm.close();
@@ -73,13 +76,17 @@ public class PrescribeDrugsForPatient extends Search2 {
 	 * Create the frame.
 	 */
 	public PrescribeDrugsForPatient() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
-		contentPane.setLayout(null);	
+		contentPane.setLayout(null);
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -139,7 +146,7 @@ public class PrescribeDrugsForPatient extends Search2 {
 		btnNewButton.setBounds(762, 509, 214, 41);
 		contentPane.add(btnNewButton);
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();

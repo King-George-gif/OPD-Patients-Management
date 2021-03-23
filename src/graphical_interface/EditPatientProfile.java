@@ -32,10 +32,9 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-public class EditPatientProfile extends Search {
+public class EditPatientProfile extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel contentPane1;
 	private JTextField firstnamefield;
 	private JTextField lastnamefield;
 	private JTextField residencefield;
@@ -44,37 +43,21 @@ public class EditPatientProfile extends Search {
 	private JTextField emergencynumberfield;
 	private JTextField emergencynamefield;
 	private JTextField emergencyrelationshipfield;
-	private int PID = -1;
+	JPanel panel;
+	Search search = new Search();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditPatientProfile frame = new EditPatientProfile();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public EditPatientProfile() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
-//		contentPane1 = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		contentPane.setLayout(null);
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(647, 40, 406, 455);
@@ -191,9 +174,9 @@ public class EditPatientProfile extends Search {
 			public void mouseClicked(MouseEvent e) {
 				if(JOptionPane.showConfirmDialog(null,"Do you want to update Patient Details with these details \n First Name ="+firstnamefield.getText()+" \n Last Name = "+lastnamefield.getText()+" \n Date Of Birth = "+dateofbirthfield.getText()+" \n Gender = "+(String)genderfield.getSelectedItem()+" \n Phone Number ="+phonenumberfield.getText()+" \n Emergency Contact Number = "+emergencynumberfield.getText()+" \n Emergency Contact Name = "+emergencynamefield.getText()+" \n Relationship With Emergency = "+emergencyrelationshipfield.getText()+"", "Confirmation Of Update", JOptionPane.YES_NO_OPTION)== 0) {
 					try {
-						connection = SqlitePatientConnection.dbConnector();
-						String query = "update patients set firstname='"+firstnamefield.getText()+"',lastname='"+lastnamefield.getText()+"',Residence='"+residencefield.getText()+"',date_of_birth='"+dateofbirthfield.getText()+"',sex='"+(String)genderfield.getSelectedItem()+"',phone_number='"+phonenumberfield.getText()+"',Emergency_contact='"+emergencynumberfield.getText()+"',Emergency_contact_name='"+emergencynamefield.getText()+"',Relation_with_emergency_contact='"+emergencyrelationshipfield.getText()+"' where patient_id= "+PID;
-						PreparedStatement pst = connection.prepareStatement(query);
+						search.connection = SqlitePatientConnection.dbConnector();
+						String query = "update patients set firstname='"+firstnamefield.getText()+"',lastname='"+lastnamefield.getText()+"',Residence='"+residencefield.getText()+"',date_of_birth='"+dateofbirthfield.getText()+"',sex='"+(String)genderfield.getSelectedItem()+"',phone_number='"+phonenumberfield.getText()+"',Emergency_contact='"+emergencynumberfield.getText()+"',Emergency_contact_name='"+emergencynamefield.getText()+"',Relation_with_emergency_contact='"+emergencyrelationshipfield.getText()+"' where patient_id= "+search.getPatientID();
+						PreparedStatement pst = search.connection.prepareStatement(query);
 						pst.execute();
 						JOptionPane.showMessageDialog(null, "Patient Data Updated Successfully");
 						pst.close();
@@ -216,15 +199,15 @@ public class EditPatientProfile extends Search {
 		separator.setBounds(623, 10, 6, 502);
 		contentPane.add(separator);
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					connection = SqlitePatientConnection.dbConnector();
-					int row = table.getSelectedRow();
-					PID = (int)table.getModel().getValueAt(row, 0);
-					String query = "select firstname, lastname, Residence, date_of_birth, sex, phone_number, Emergency_contact, Emergency_contact_name, Relation_with_emergency_contact from patients where patient_id = "+PID;
-					PreparedStatement pst = connection.prepareStatement(query);
+					search.connection = SqlitePatientConnection.dbConnector();
+					int row = search.table.getSelectedRow();
+					search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+					String query = "select firstname, lastname, Residence, date_of_birth, sex, phone_number, Emergency_contact, Emergency_contact_name, Relation_with_emergency_contact from patients where patient_id = "+search.getPatientID();
+					PreparedStatement pst = search.connection.prepareStatement(query);
 					ResultSet rst = pst.executeQuery();
 					
 					while(rst.next()) {

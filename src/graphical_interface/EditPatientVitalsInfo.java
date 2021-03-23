@@ -26,25 +26,24 @@ import javax.swing.border.EmptyBorder;
 
 import database_management.SqlitePatientConnection;
 
-public class EditPatientVitalsInfo extends Search2 {
+public class EditPatientVitalsInfo extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel firstnamefield;
 	private JLabel lastnamefield;
 	private JEditorPane editorPane;
+	JPanel panel;
+	Search search = new Search();
 
-	/**
-	 * Launch the application.
-	 */
 
 	
 	public void DoTheMainWork() {
-		if(JOptionPane.showConfirmDialog(null,"Edit Vitals For Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+		if(JOptionPane.showConfirmDialog(null,"Edit Vitals For Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
 			PreparedStatement pstm = null;
 			try {
-				connection = SqlitePatientConnection.dbConnector();
-				String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID="+this.getFolderID()+" and date_created ='"+TodaysDate()+"'";
-				pstm = connection.prepareStatement(query1);
+				search.connection = SqlitePatientConnection.dbConnector();
+				String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID="+search.getFolderID()+" and date_created ='"+search.TodaysDate()+"'";
+				pstm = search.connection.prepareStatement(query1);
 				pstm.execute();
 				JOptionPane.showMessageDialog(null, "Patient's Vitals has successfully been edited");
 				
@@ -65,9 +64,9 @@ public class EditPatientVitalsInfo extends Search2 {
 		ResultSet rstt = null;
 		String vitals_information = "";
 		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "select vitals_information from folder_files where folderID= "+this.getFolderID() +" and date_created='"+TodaysDate()+"'";
-			pstm = connection.prepareStatement(query1);
+			search.connection = SqlitePatientConnection.dbConnector();
+			String query1 = "select vitals_information from folder_files where folderID= "+search.getFolderID() +" and date_created='"+search.TodaysDate()+"'";
+			pstm = search.connection.prepareStatement(query1);
 			rstt = pstm.executeQuery();
 			while(rstt.next()) {
 				vitals_information = rstt.getString("vitals_information");
@@ -85,12 +84,12 @@ public class EditPatientVitalsInfo extends Search2 {
 
 	
 	public void PopulateFirstAndLastName() {	
-		int row = table.getSelectedRow();
-		this.setPatientID((int)table.getModel().getValueAt(row, 0));
-		this.firstnamefield.setText((String)table.getModel().getValueAt(row, 1));
-		this.lastnamefield.setText((String)table.getModel().getValueAt(row, 2));
-		this.setFirstName((String)table.getModel().getValueAt(row, 1));
-		this.setLastName((String)table.getModel().getValueAt(row, 2));
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		this.firstnamefield.setText((String)search.table.getModel().getValueAt(row, 1));
+		this.lastnamefield.setText((String)search.table.getModel().getValueAt(row, 2));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2));
 	}
 	
 
@@ -98,14 +97,19 @@ public class EditPatientVitalsInfo extends Search2 {
 	 * Create the frame.
 	 */
 	public EditPatientVitalsInfo() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		contentPane.setLayout(null);
+
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -169,11 +173,11 @@ public class EditPatientVitalsInfo extends Search2 {
 		lastnamefield.setBounds(780, 124, 143, 20);
 		contentPane.add(lastnamefield);
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();
-				SetTheFolderID();
+				search.SetTheFolderID();
 				editorPane.setText(getVitalsInfo());
 			}
 		});

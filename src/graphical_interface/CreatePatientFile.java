@@ -19,15 +19,11 @@ import javax.swing.border.EmptyBorder;
 
 import database_management.SqlitePatientConnection;
 
-public class CreatePatientFile extends Search2 {
+public class CreatePatientFile extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-
-
+	JPanel panel;
+	Search search = new Search();
 	
 	
 	
@@ -35,17 +31,17 @@ public class CreatePatientFile extends Search2 {
 		PreparedStatement pst = null;
 		ResultSet rst = null;
 		try {
-		int row = table.getSelectedRow();
-		this.setPatientID((int)table.getModel().getValueAt(row, 0));
-		this.setFirstName((String)table.getModel().getValueAt(row, 1));
-		this.setLastName((String)table.getModel().getValueAt(row, 2)); 
-		if(JOptionPane.showConfirmDialog(null,"Create File For Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Confirm File Creation", JOptionPane.YES_NO_OPTION)== 0) {
-			connection = SqlitePatientConnection.dbConnector();
-			String query = "select folder_id from patients_folder where patient="+this.getPatientID();
-			pst = connection.prepareStatement(query);
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2)); 
+		if(JOptionPane.showConfirmDialog(null,"Create File For Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Confirm File Creation", JOptionPane.YES_NO_OPTION)== 0) {
+			search.connection = SqlitePatientConnection.dbConnector();
+			String query = "select folder_id from patients_folder where patient="+search.getPatientID();
+			pst = search.connection.prepareStatement(query);
 			rst = pst.executeQuery();
 			while(rst.next()) {
-				this.setFolderID(rst.getInt("folder_id")); 			
+				search.setFolderID(rst.getInt("folder_id")); 			
 			}
 			pst.close();
 			rst.close();
@@ -60,19 +56,19 @@ public class CreatePatientFile extends Search2 {
 	
 	public void DoTheMainWork() {
 		try {
-			connection = SqlitePatientConnection.dbConnector();
+			search.connection = SqlitePatientConnection.dbConnector();
 			String query1 = "insert into folder_files (file_id, date_created, vitals_information, Diagnosis_information, prescribed_drugs, labs_ordered, lab_results, folderID) values (NULL, ?,?,?,?,?,?,?) ";
-			PreparedStatement pstm = connection.prepareStatement(query1);
-			pstm.setString(1, TodaysDate());
+			PreparedStatement pstm = search.connection.prepareStatement(query1);
+			pstm.setString(1, search.TodaysDate());
 			pstm.setString(2, "");
 			pstm.setString(3, "");
 			pstm.setString(4, "");
 			pstm.setString(5, "");
 			pstm.setString(6, "");
-			pstm.setInt(7, getFolderID());
+			pstm.setInt(7, search.getFolderID());
 			
 			pstm.execute();
-			JOptionPane.showMessageDialog(null, "File Was Successfully Created For Patient "+this.getFirstName()+" "+this.getLastName());
+			JOptionPane.showMessageDialog(null, "File Was Successfully Created For Patient "+search.getFirstName()+" "+search.getLastName());
 			pstm.close();
 			
 		}catch(Exception ef) {
@@ -89,9 +85,13 @@ public class CreatePatientFile extends Search2 {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		
-		table.addMouseListener(new MouseAdapter() {
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
