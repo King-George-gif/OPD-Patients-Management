@@ -28,24 +28,26 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class OrderLabForPatient extends Search2 {
+public class OrderLabForPatient extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblNewLabel, lblNewLabel_1,lblNewLabel_2,lblNewLabel_3,lblNewLabel_4;
 	private JEditorPane editorPane;
-
+	JPanel panel;
+	Search search = new Search();
+	
 	
 	public void PopulateFirstAndLastName() {
-		int row = table.getSelectedRow();
-		this.setPatientID((int)table.getModel().getValueAt(row, 0));
-		this.setFirstName((String)table.getModel().getValueAt(row, 1));
-		this.setLastName((String)table.getModel().getValueAt(row, 2));
-		lblNewLabel_4.setText(this.getFirstName()+" "+this.getLastName());
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2));
+		lblNewLabel_4.setText(search.getFirstName()+" "+search.getLastName());
 	}
 	
 	public void DoTheMainWork() {
-		if(JOptionPane.showConfirmDialog(null,"Add Lab(s) to Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
-			SetTheFolderID();
+		if(JOptionPane.showConfirmDialog(null,"Add Lab(s) to Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+			search.SetTheFolderID();
 			addLabToPatientFile();
 		}
 		
@@ -53,9 +55,9 @@ public class OrderLabForPatient extends Search2 {
 	
 	public void addLabToPatientFile() {
 		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set prescribed_drugs='"+editorPane.getText()+"' where folderID= "+this.getFolderID() +" and date_created='"+this.TodaysDate()+"'";
-			PreparedStatement pstm = connection.prepareStatement(query1);
+			search.connection = SqlitePatientConnection.dbConnector();
+			String query1 = "update folder_files set labs_ordered='"+editorPane.getText()+"' where folderID= "+search.getFolderID() +" and date_created='"+search.TodaysDate()+"'";
+			PreparedStatement pstm = search.connection.prepareStatement(query1);
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Labs has been successfully added to Patient File");
 			pstm.close();
@@ -70,13 +72,17 @@ public class OrderLabForPatient extends Search2 {
 	 * Create the frame.
 	 */
 	public OrderLabForPatient() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		contentPane.setLayout(null);
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -115,6 +121,7 @@ public class OrderLabForPatient extends Search2 {
 		contentPane.add(scrollPane);
 		
 		editorPane = new JEditorPane();
+		editorPane.setFont(new Font("Tahoma", Font.BOLD, 13));
 		scrollPane.setViewportView(editorPane);
 		
 		JButton btnNewButton = new JButton("ADD LAB(S) TO PATIENT FILE");
@@ -135,7 +142,7 @@ public class OrderLabForPatient extends Search2 {
 		btnNewButton.setBounds(744, 474, 212, 38);
 		contentPane.add(btnNewButton);
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();

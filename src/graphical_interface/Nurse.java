@@ -31,21 +31,6 @@ public class Nurse extends JFrame {
 	private JPanel contentPane;
 	private NurseClass nurse;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-//				try {
-//					Nurse frame = new Nurse();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -117,46 +102,9 @@ public class Nurse extends JFrame {
 		btnNewButton_3.setBounds(605, 11, 104, 31);
 		panel.add(btnNewButton_3);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 89, 223, 400);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("Set Availability");
-		tglbtnNewToggleButton.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(tglbtnNewToggleButton.isSelected()) {
-					tglbtnNewToggleButton.setBackground(new Color(0, 128, 128));
-					tglbtnNewToggleButton.setText("Set Unavailability");
-				}
-				else {
-					tglbtnNewToggleButton.setBackground(new Color(0, 206, 209));
-					tglbtnNewToggleButton.setText("Set Availability");
-				}
-			}
-		});
-
-		tglbtnNewToggleButton.setForeground(Color.WHITE);
-		tglbtnNewToggleButton.setBackground(new Color(0, 206, 209));
-		tglbtnNewToggleButton.setBorder(null);
-		tglbtnNewToggleButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tglbtnNewToggleButton.setBounds(33, 23, 155, 32);
-		panel_1.add(tglbtnNewToggleButton);
-		
-		JLabel lblNewLabel = new JLabel("Available Doctors");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(33, 81, 155, 32);
-		panel_1.add(lblNewLabel);
-		
-		JList list = new JList();
-		list.setBounds(33, 135, 155, 231);
-		panel_1.add(list);
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(284, 89, 474, 400);
+		panel_2.setBounds(160, 87, 474, 400);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		

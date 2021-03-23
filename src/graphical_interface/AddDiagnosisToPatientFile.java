@@ -28,7 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class AddDiagnosisToPatientFile extends Search2 {
+public class AddDiagnosisToPatientFile extends JFrame {
 
 	private JPanel contentPane;
 	private JEditorPane editorPane;
@@ -39,53 +39,59 @@ public class AddDiagnosisToPatientFile extends Search2 {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	JPanel panel;
+	Search search = new Search();
 
-	/**
-	 * Launch the application.
-	 */
 
 	public void DoTheMainWork() {
-		SetTheFolderID();
+		search.SetTheFolderID();
 		addDiagnosisNoteToPatientFile();
 	}
 
 	
 	
 	public void addDiagnosisNoteToPatientFile() {
-		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set Diagnosis_information='"+editorPane.getText()+"' where folderID= "+this.getFolderID() +" and date_created='"+this.TodaysDate()+"'";
-			PreparedStatement pstm = connection.prepareStatement(query1);
-			pstm.execute();
-			JOptionPane.showMessageDialog(null, "Diagnosis has been successfully added to Patient File");
-			pstm.close();
-			
-		}catch(Exception ef) {
-			JOptionPane.showMessageDialog(null, "There was a problem adding Diagnosis to Patient's File");
-			ef.printStackTrace();
+		if(JOptionPane.showConfirmDialog(null,"Add Diagnosis to Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+			try {
+				search.connection = SqlitePatientConnection.dbConnector();
+				String query1 = "update folder_files set Diagnosis_information='"+editorPane.getText()+"' where folderID= "+search.getFolderID() +" and date_created='"+search.TodaysDate()+"'";
+				PreparedStatement pstm = search.connection.prepareStatement(query1);
+				pstm.execute();
+				JOptionPane.showMessageDialog(null, "Diagnosis has been successfully added to Patient File");
+				pstm.close();
+				
+			}catch(Exception ef) {
+				JOptionPane.showMessageDialog(null, "There was a problem adding Diagnosis to Patient's File");
+				ef.printStackTrace();
+			}
 		}
+		
 	}
 	
 	public void PopulateFirstAndLastName() {
 		
-		int row = table.getSelectedRow();
-		this.setPatientID((int)table.getModel().getValueAt(row, 0));
-		this.setFirstName((String)table.getModel().getValueAt(row, 1));
-		this.setLastName((String)table.getModel().getValueAt(row, 2));
-		lblNewLabel_4.setText(this.getFirstName()+" "+this.getLastName());		
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2));
+		lblNewLabel_4.setText(search.getFirstName()+" "+search.getLastName());		
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public AddDiagnosisToPatientFile() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		contentPane.setLayout(null);
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -146,7 +152,7 @@ public class AddDiagnosisToPatientFile extends Search2 {
 		contentPane.add(lblNewLabel_4);
 		
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();

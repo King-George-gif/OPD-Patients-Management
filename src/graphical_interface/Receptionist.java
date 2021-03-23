@@ -32,21 +32,6 @@ public class Receptionist extends JFrame {
 	private JPanel contentPane;
 	private ReceptionistClass receptionist;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-//				try {
-//					Receptionist frame = new Receptionist();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -66,10 +51,10 @@ public class Receptionist extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Receptionist "+this.receptionist.getLastName());
+		JLabel lblNewLabel = new JLabel("Welcome Receptionist "+this.receptionist.getLastName());
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 9, 123, 25);
+		lblNewLabel.setBounds(10, 9, 284, 25);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_3 = new JButton("Log Out");
@@ -118,40 +103,9 @@ public class Receptionist extends JFrame {
 		btnNewButton_4.setBounds(603, 12, 117, 23);
 		panel.add(btnNewButton_4);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 69, 245, 461);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("Set Availability");
-		tglbtnNewToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(tglbtnNewToggleButton.isSelected()) {
-					tglbtnNewToggleButton.setText("Set Unavailability");
-				}
-				else {
-					tglbtnNewToggleButton.setText("Set Availability");
-				}
-			}
-		});
-		tglbtnNewToggleButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tglbtnNewToggleButton.setBounds(31, 11, 157, 29);
-		panel_1.add(tglbtnNewToggleButton);
-		
-		JLabel lblNewLabel_1 = new JLabel("Nurses Available");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(31, 74, 167, 29);
-		panel_1.add(lblNewLabel_1);
-		
-		JList list = new JList();
-		list.setBounds(31, 114, 167, 295);
-		panel_1.add(list);
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(309, 69, 441, 461);
+		panel_2.setBounds(166, 69, 441, 461);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		

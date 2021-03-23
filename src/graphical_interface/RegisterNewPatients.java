@@ -394,7 +394,7 @@ public class RegisterNewPatients extends JFrame {
 		
 		lblNewLabel_10 = new JLabel("");
 		lblNewLabel_10.setForeground(Color.RED);
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_10.setBounds(352, 462, 227, 27);
 		contentPane.add(lblNewLabel_10);
 		
@@ -407,49 +407,49 @@ public class RegisterNewPatients extends JFrame {
 		
 		firstNameError = new JLabel("");
 		firstNameError.setForeground(Color.RED);
-		firstNameError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		firstNameError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		firstNameError.setBounds(601, 96, 248, 24);
 		contentPane.add(firstNameError);
 		
 		secondNameError = new JLabel("");
 		secondNameError.setForeground(Color.RED);
-		secondNameError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		secondNameError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		secondNameError.setBounds(601, 140, 248, 21);
 		contentPane.add(secondNameError);
 		
 		residenceError = new JLabel("");
 		residenceError.setForeground(Color.RED);
-		residenceError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		residenceError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		residenceError.setBounds(601, 178, 248, 24);
 		contentPane.add(residenceError);
 		
 		dateOfBirthError = new JLabel("");
 		dateOfBirthError.setForeground(Color.RED);
-		dateOfBirthError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		dateOfBirthError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		dateOfBirthError.setBounds(601, 219, 248, 30);
 		contentPane.add(dateOfBirthError);
 		
 		phoneNumberError = new JLabel("");
 		phoneNumberError.setForeground(Color.RED);
-		phoneNumberError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		phoneNumberError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		phoneNumberError.setBounds(601, 301, 248, 24);
 		contentPane.add(phoneNumberError);
 		
 		emergencyContactError = new JLabel("");
 		emergencyContactError.setForeground(Color.RED);
-		emergencyContactError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		emergencyContactError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		emergencyContactError.setBounds(601, 342, 248, 24);
 		contentPane.add(emergencyContactError);
 		
 		emergencyContactRelationError = new JLabel("");
 		emergencyContactRelationError.setForeground(Color.RED);
-		emergencyContactRelationError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		emergencyContactRelationError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		emergencyContactRelationError.setBounds(601, 383, 248, 24);
 		contentPane.add(emergencyContactRelationError);
 		
 		emergencyContactNameError = new JLabel("");
 		emergencyContactNameError.setForeground(Color.RED);
-		emergencyContactNameError.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		emergencyContactNameError.setFont(new Font("Tahoma", Font.BOLD, 13));
 		emergencyContactNameError.setBounds(601, 424, 248, 24);
 		contentPane.add(emergencyContactNameError);
 		
@@ -473,7 +473,7 @@ public class RegisterNewPatients extends JFrame {
 		
 		lblNewLabel_12 = new JLabel("");
 		lblNewLabel_12.setForeground(Color.RED);
-		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_12.setBounds(601, 260, 248, 24);
 		contentPane.add(lblNewLabel_12);
 	}
