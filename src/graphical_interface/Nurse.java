@@ -12,19 +12,13 @@ import javax.swing.JComponent;
 import java.awt.Font;
 import java.awt.Window;
 
-import javax.swing.JToggleButton;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import staff_classes.NurseClass;
-
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class Nurse extends JFrame {
 
@@ -121,6 +115,7 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AddVitalsToPatientFile frame = new AddVitalsToPatientFile();
+				frame.setTitle("Add Patients Vitals Here");
 				frame.setVisible(true);
 			}
 		});
@@ -144,6 +139,7 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				EditPatientVitalsInfo frame = new EditPatientVitalsInfo();
+				frame.setTitle("Edit Patient Vitals");
 				frame.setVisible(true);
 			}
 		});

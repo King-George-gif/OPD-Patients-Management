@@ -112,6 +112,7 @@ public class Doctor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AddDiagnosisToPatientFile frame = new AddDiagnosisToPatientFile();
+				frame.setTitle("Patients Diagnosis");
 				frame.setVisible(true);
 			}
 		});
@@ -135,6 +136,7 @@ public class Doctor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				OrderLabForPatient frame = new OrderLabForPatient();
+				frame.setTitle("Order Labs For Patients");
 				frame.setVisible(true);
 			}
 		});
@@ -158,6 +160,7 @@ public class Doctor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PrescribeDrugsForPatient frame = new PrescribeDrugsForPatient();
+				frame.setTitle("Prescribe Drugs For Patients");
 				frame.setVisible(true);
 			}
 		});
@@ -199,6 +202,7 @@ public class Doctor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				EditOrViewMyNotes frame = new EditOrViewMyNotes();
+				frame.setTitle("Patient File Summary");
 				frame.setVisible(true);
 			}
 		});

@@ -122,6 +122,7 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				EditPatientProfile patientProfile = new EditPatientProfile();
+				patientProfile.setTitle("Edit Patients Title");
 				patientProfile.setVisible(true);
 			}
 		});
@@ -145,6 +146,7 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				RegisterNewPatients frame = new RegisterNewPatients();
+				frame.setTitle("Register New Patients");
 				frame.setVisible(true);
 				
 			}
@@ -169,6 +171,7 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				CreatePatientFile frame = new CreatePatientFile();
+				frame.setTitle("Create File For Patients");
 				frame.setVisible(true);
 			}
 		});
