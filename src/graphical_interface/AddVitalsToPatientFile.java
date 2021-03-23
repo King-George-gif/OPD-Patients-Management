@@ -10,10 +10,8 @@ import database_management.SqlitePatientConnection;
 
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.JEditorPane;
 import java.awt.Font;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -22,7 +20,6 @@ import java.sql.ResultSet;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 
 public class AddVitalsToPatientFile extends Search2 {
 
@@ -35,18 +32,6 @@ public class AddVitalsToPatientFile extends Search2 {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddVitalsToPatientFile frame = new AddVitalsToPatientFile();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	public void DoTheMainWork() {
 		if(JOptionPane.showConfirmDialog(null,"Add Vitals to Patient with \n First Name = "+this.getFirstName()+" \n and Last Name = "+this.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
@@ -72,30 +57,6 @@ public class AddVitalsToPatientFile extends Search2 {
 	}
 	
 	
-	public void SetTheFolderID() {
-		PreparedStatement pst = null;
-		ResultSet rst = null;
-
-			try { 
-					connection = SqlitePatientConnection.dbConnector();
-					String query = "select folder_id from patients_folder where patient="+this.getPatientID();
-					pst = connection.prepareStatement(query);
-					rst = pst.executeQuery();
-					while(rst.next()) {
-						this.setFolderID(rst.getInt("folder_id"));
-						
-					}
-					pst.close();
-					rst.close();				
-				
-				
-				}catch(Exception ee) {
-					JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
-					ee.printStackTrace();
-				}
-		
-		
-	}
 	
 	public void PopulateFirstAndLastName() {	
 		int row = table.getSelectedRow();
@@ -111,7 +72,7 @@ public class AddVitalsToPatientFile extends Search2 {
 	 * Create the frame.
 	 */
 	public AddVitalsToPatientFile() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

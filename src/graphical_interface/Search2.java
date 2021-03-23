@@ -65,6 +65,31 @@ import java.util.GregorianCalendar;
 
 
 	
+	public void SetTheFolderID() {
+		PreparedStatement pst = null;
+		ResultSet rst = null;
+
+			try { 
+					connection = SqlitePatientConnection.dbConnector();
+					String query = "select folder_id from patients_folder where patient="+this.getPatientID();
+					pst = connection.prepareStatement(query);
+					rst = pst.executeQuery();
+					while(rst.next()) {
+						this.setFolderID(rst.getInt("folder_id"));
+						
+					}
+					pst.close();
+					rst.close();				
+				
+				
+				}catch(Exception ee) {
+					JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
+					ee.printStackTrace();
+				}
+		
+		
+	}
+	
 	public ResultSet SearchResults(String field, String value) {
 		try {
 		String query = "select patient_id as 'Patient ID', firstname as 'First Name', lastname as 'Surname', Residence, date_of_birth as 'Date Of Birth', sex as 'Gender' from patients where "+field+" =?";
