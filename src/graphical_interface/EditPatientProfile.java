@@ -172,21 +172,26 @@ public class EditPatientProfile extends JFrame {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(JOptionPane.showConfirmDialog(null,"Do you want to update Patient Details with these details \n First Name ="+firstnamefield.getText()+" \n Last Name = "+lastnamefield.getText()+" \n Date Of Birth = "+dateofbirthfield.getText()+" \n Gender = "+(String)genderfield.getSelectedItem()+" \n Phone Number ="+phonenumberfield.getText()+" \n Emergency Contact Number = "+emergencynumberfield.getText()+" \n Emergency Contact Name = "+emergencynamefield.getText()+" \n Relationship With Emergency = "+emergencyrelationshipfield.getText()+"", "Confirmation Of Update", JOptionPane.YES_NO_OPTION)== 0) {
-					try {
-						search.connection = SqlitePatientConnection.dbConnector();
-						String query = "update patients set firstname='"+firstnamefield.getText()+"',lastname='"+lastnamefield.getText()+"',Residence='"+residencefield.getText()+"',date_of_birth='"+dateofbirthfield.getText()+"',sex='"+(String)genderfield.getSelectedItem()+"',phone_number='"+phonenumberfield.getText()+"',Emergency_contact='"+emergencynumberfield.getText()+"',Emergency_contact_name='"+emergencynamefield.getText()+"',Relation_with_emergency_contact='"+emergencyrelationshipfield.getText()+"' where patient_id= "+search.getPatientID();
-						PreparedStatement pst = search.connection.prepareStatement(query);
-						pst.execute();
-						JOptionPane.showMessageDialog(null, "Patient Data Updated Successfully");
-						pst.close();
-					}catch(Exception ec) {
-						ec.printStackTrace();
+				if(firstnamefield.getText().isBlank() && lastnamefield.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Search And Select Patient In the Left Pane");
+				}else {
+					if(JOptionPane.showConfirmDialog(null,"Do you want to update Patient Details with these details \n First Name ="+firstnamefield.getText()+" \n Last Name = "+lastnamefield.getText()+" \n Date Of Birth = "+dateofbirthfield.getText()+" \n Gender = "+(String)genderfield.getSelectedItem()+" \n Phone Number ="+phonenumberfield.getText()+" \n Emergency Contact Number = "+emergencynumberfield.getText()+" \n Emergency Contact Name = "+emergencynamefield.getText()+" \n Relationship With Emergency = "+emergencyrelationshipfield.getText()+"", "Confirmation Of Update", JOptionPane.YES_NO_OPTION)== 0) {
+						try {
+							search.connection = SqlitePatientConnection.dbConnector();
+							String query = "update patients set firstname='"+firstnamefield.getText()+"',lastname='"+lastnamefield.getText()+"',Residence='"+residencefield.getText()+"',date_of_birth='"+dateofbirthfield.getText()+"',sex='"+(String)genderfield.getSelectedItem()+"',phone_number='"+phonenumberfield.getText()+"',Emergency_contact='"+emergencynumberfield.getText()+"',Emergency_contact_name='"+emergencynamefield.getText()+"',Relation_with_emergency_contact='"+emergencyrelationshipfield.getText()+"' where patient_id= "+search.getPatientID();
+							PreparedStatement pst = search.connection.prepareStatement(query);
+							pst.execute();
+							JOptionPane.showMessageDialog(null, "Patient Data Updated Successfully");
+							pst.close();
+						}catch(Exception ec) {
+							ec.printStackTrace();
+						}
+						JComponent comp = (JComponent) e.getSource();
+						  Window win = SwingUtilities.getWindowAncestor(comp);  
+						  win.dispose();    //dispose off this frame
 					}
-					JComponent comp = (JComponent) e.getSource();
-					  Window win = SwingUtilities.getWindowAncestor(comp);  
-					  win.dispose();    //dispose off this frame
 				}
+				
 				
 			}
 		});
