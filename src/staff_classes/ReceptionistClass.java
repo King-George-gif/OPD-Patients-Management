@@ -5,20 +5,6 @@ public class ReceptionistClass extends Staff{
 		super(firstname, lastname);
 	}
 	
-	public void RegisterPatients() {
-		
-	}
 	
-	public void EditPatientsDetails() {
-		
-	}
-	
-	public void AssignPatientsToNurse() {
-		
-	}
-	
-	public void GenerateNewFileForPatient() {
-		
-	}
 
 }

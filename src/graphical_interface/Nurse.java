@@ -12,46 +12,25 @@ import javax.swing.JComponent;
 import java.awt.Font;
 import java.awt.Window;
 
-import javax.swing.JToggleButton;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import staff_classes.NurseClass;
 
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-
 public class Nurse extends JFrame {
 
 	private JPanel contentPane;
 	private NurseClass nurse;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-//				try {
-//					Nurse frame = new Nurse();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public Nurse(NurseClass nurse) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 580);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 128, 128));
@@ -66,10 +45,9 @@ public class Nurse extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Nurse "+this.nurse.getLastName());
+		JLabel lblNewLabel_1 = new JLabel("Welcome Nurse "+this.nurse.getLastName());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 11, 142, 31);
+		lblNewLabel_1.setBounds(10, 11, 223, 31);
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton_2 = new JButton("Log Out");
@@ -110,6 +88,12 @@ public class Nurse extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_3.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangeLoginDetails frame = new ChangeLoginDetails();
+				frame.setTitle("Existing/Old Details");
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_3.setBackground(new Color(0, 128, 128));
 		btnNewButton_3.setForeground(Color.WHITE);
@@ -118,46 +102,9 @@ public class Nurse extends JFrame {
 		btnNewButton_3.setBounds(605, 11, 104, 31);
 		panel.add(btnNewButton_3);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 89, 223, 400);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("Set Availability");
-		tglbtnNewToggleButton.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(tglbtnNewToggleButton.isSelected()) {
-					tglbtnNewToggleButton.setBackground(new Color(0, 128, 128));
-					tglbtnNewToggleButton.setText("Set Unavailability");
-				}
-				else {
-					tglbtnNewToggleButton.setBackground(new Color(0, 206, 209));
-					tglbtnNewToggleButton.setText("Set Availability");
-				}
-			}
-		});
-
-		tglbtnNewToggleButton.setForeground(Color.WHITE);
-		tglbtnNewToggleButton.setBackground(new Color(0, 206, 209));
-		tglbtnNewToggleButton.setBorder(null);
-		tglbtnNewToggleButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tglbtnNewToggleButton.setBounds(33, 23, 155, 32);
-		panel_1.add(tglbtnNewToggleButton);
-		
-		JLabel lblNewLabel = new JLabel("Available Doctors");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(33, 81, 155, 32);
-		panel_1.add(lblNewLabel);
-		
-		JList list = new JList();
-		list.setBounds(33, 135, 155, 231);
-		panel_1.add(list);
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(284, 89, 474, 400);
+		panel_2.setBounds(160, 87, 474, 400);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -174,6 +121,7 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AddVitalsToPatientFile frame = new AddVitalsToPatientFile();
+				frame.setTitle("Add Patients Vitals Here");
 				frame.setVisible(true);
 			}
 		});
@@ -197,6 +145,7 @@ public class Nurse extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				EditPatientVitalsInfo frame = new EditPatientVitalsInfo();
+				frame.setTitle("Edit Patient Vitals");
 				frame.setVisible(true);
 			}
 		});

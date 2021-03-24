@@ -11,10 +11,16 @@ import database_management.SqlitePatientConnection;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -25,8 +31,10 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class Search extends JFrame {
+  class Search extends JFrame {
 
 	private JPanel contentPane;
 	public JTextField firstnamefiltertext;
@@ -49,21 +57,65 @@ public class Search extends JFrame {
 	JPanel panel;
 	private JButton btnNewButton;
 	Connection connection = null;
+	private int folder_id = -1;
+	private int PID = -1;
+	private String firstname;
+	private String lastname;
+	private String date_created;
+	private JButton btnNewButton_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Search frame = new Search();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+
+	
+	public void SetTheFolderID() {
+		PreparedStatement pst = null;
+		ResultSet rst = null;
+
+			try { 
+					connection = SqlitePatientConnection.dbConnector();
+					String query = "select folder_id from patients_folder where patient="+this.getPatientID();
+					pst = connection.prepareStatement(query);
+					rst = pst.executeQuery();
+					while(rst.next()) {
+						this.setFolderID(rst.getInt("folder_id"));
+						
+					}
+					pst.close();
+					rst.close();				
+				
+				
+				}catch(Exception ee) {
+					JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
+					ee.printStackTrace();
 				}
-			}
-		});
+		
+		
+	}
+	
+	
+	public void getTheDateCreated() {
+		SetTheFolderID();
+		PreparedStatement pst = null;
+		ResultSet rst = null;
+
+			try { 
+					connection = SqlitePatientConnection.dbConnector();
+					String query = "select date_created from folder_files where folderID="+this.getFolderID();
+					pst = connection.prepareStatement(query);
+					rst = pst.executeQuery();
+					while(rst.next()) {
+						this.setdate_created(rst.getString("date_created"));
+						
+					}
+					pst.close();
+					rst.close();				
+				
+				
+				}catch(Exception ee) {
+					JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
+					ee.printStackTrace();
+				}
+		
+		
 	}
 	
 	public ResultSet SearchResults(String field, String value) {
@@ -81,6 +133,54 @@ public class Search extends JFrame {
 		
 	}
 	
+	public void setdate_created(String date_created) {
+		this.date_created = date_created;
+	}
+	
+	public String getdate_created() {
+		return this.date_created;
+	}
+	
+	public void setFolderID(int folder_id) {
+		this.folder_id = folder_id;
+	}
+	
+	public int getFolderID() {
+		return this.folder_id;
+	}
+	
+	public void setFirstName(String firstname) {
+		this.firstname = firstname;
+	}
+	
+	public String getFirstName() {
+		return this.firstname;
+	}
+	
+	public void setLastName(String lastname) {
+		this.lastname = lastname;
+	}
+	
+	public String getLastName() {
+		return this.lastname;
+	}
+	
+	public void setPatientID(int patient_id) {
+		this.PID = patient_id;
+	}
+	
+	public int getPatientID() {
+		return this.PID;
+	}
+	
+	
+	public String TodaysDate() {
+		Calendar cal = new GregorianCalendar();
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int month = cal.get(Calendar.MONTH)+ 1;
+		int year = cal.get(Calendar.YEAR);
+		return ""+day+"-"+month+"-"+year;
+	}
 	
 
 	/**
@@ -101,7 +201,7 @@ public class Search extends JFrame {
 		
 		lblNewLabel = new JLabel("Search For Patient");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 11, 144, 30);
+		lblNewLabel.setBounds(183, 11, 144, 30);
 		panel.add(lblNewLabel);
 		
 		firstnamefilter = new JCheckBox("FirstName:");
@@ -186,7 +286,10 @@ public class Search extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				connection = SqlitePatientConnection.dbConnector();
-				if(firstnamefilter.isSelected()) {
+				if(!firstnamefilter.isSelected() && !lastnamefilter.isSelected() && !dateofbirthfilter.isSelected() && !genderfilter.isSelected() && !phonenumberfilter.isSelected() ) {
+					JOptionPane.showMessageDialog(null, "	!!!ERROR \nOne Of The Select Boxes Must Be Selected");
+				}
+				else if(firstnamefilter.isSelected()) {
 					table.setModel(DbUtils.resultSetToTableModel(SearchResults("firstname", firstnamefiltertext.getText())));
 					
 				}
@@ -197,7 +300,12 @@ public class Search extends JFrame {
 					table.setModel(DbUtils.resultSetToTableModel(SearchResults("date_of_birth", dateofbirthfiltertext.getText())));
 				}
 				else if(genderfilter.isSelected()) {
+					if((String)genderfiltertext.getSelectedItem() == "Select Gender") {
+						JOptionPane.showMessageDialog(null, "!!!ERROR \n Please Select Gender Of Patient");
+					}
+					else {							
 					table.setModel(DbUtils.resultSetToTableModel(SearchResults("sex", (String)genderfiltertext.getSelectedItem())));
+					}
 				}
 				else if(phonenumberfilter.isSelected()) {
 					table.setModel(DbUtils.resultSetToTableModel(SearchResults("phone_number", phonenumberfiltertext.getText())));
@@ -207,5 +315,20 @@ public class Search extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBounds(10, 212, 89, 23);
 		panel.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("BACK");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JComponent comp = (JComponent) e.getSource();
+				  Window win = SwingUtilities.getWindowAncestor(comp);  
+				  win.dispose();    //dispose off this frame
+			}
+		});
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnNewButton_1.setBounds(10, 12, 79, 30);
+		panel.add(btnNewButton_1);
+		
+		
 	}
 }

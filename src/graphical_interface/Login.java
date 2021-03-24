@@ -187,29 +187,24 @@ public class Login {
 								//Receptionist page
 								ReceptionistClass worker = new ReceptionistClass(firstname, lastname);
 								Receptionist receptionist = new Receptionist(worker);
+								receptionist.setTitle("Receptionist Dashboard");
 								receptionist.setVisible(true);
 							}
 							else if(designation == 4) {
 								//Nurse page
 								NurseClass worker = new NurseClass(firstname, lastname);
 								Nurse nurse = new Nurse(worker);
+								nurse.setTitle("Nurses Dashboard");
 								nurse.setVisible(true);
 							}
 							else if(designation == 5) {
 								//Doctor page
 								DoctorClass worker = new DoctorClass(firstname, lastname);
 								Doctor doctor = new Doctor(worker);
+								doctor.setTitle("Doctors Dashboard");
 								doctor.setVisible(true);
 							}
-							else if(designation == 6) {
-								//lab technician page
-							}
-							else if(designation == 7) {
-								//pharmacist page
-							}
-							else if(designation == 8) {
-								//accountant page
-							}
+							
 							
 							queryoutputlabel.setText("Valid username and password");
 						}

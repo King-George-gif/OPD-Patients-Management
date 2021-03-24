@@ -26,79 +26,48 @@ import javax.swing.border.EmptyBorder;
 
 import database_management.SqlitePatientConnection;
 
-public class EditPatientVitalsInfo extends Search {
+public class EditPatientVitalsInfo extends JFrame {
 
 	private JPanel contentPane;
-	private int PID = -1;
-	private int folder_id = -1;
 	private JLabel firstnamefield;
 	private JLabel lastnamefield;
 	private JEditorPane editorPane;
-	Connection conn = null;
+	JPanel panel;
+	Search search = new Search();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-//				try {
-//					EditPatientVitalsInfo frame = new EditPatientVitalsInfo();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
-	}
+
 	
-	public String TodaysDate() {
-		Calendar cal = new GregorianCalendar();
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int month = cal.get(Calendar.MONTH)+ 1;
-		int year = cal.get(Calendar.YEAR);
-		return ""+day+"-"+month+"-"+year;
-	}
-	
-	public int getFolderID() {
-		PreparedStatement pst = null;
-		ResultSet rst = null;
-		int folder_id = -1;
-		try {
-		int row = table.getSelectedRow();
-		int PID = (int)table.getModel().getValueAt(row, 0);
-		String firstname = (String)table.getModel().getValueAt(row, 1);
-		String lastname = (String)table.getModel().getValueAt(row, 2);
-		if(JOptionPane.showConfirmDialog(null,"Edit Vitals of Patient with \n First Name = "+firstname+" \n and Last Name = "+lastname+" ","Vitals Information Edit Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
-			connection = SqlitePatientConnection.dbConnector();
-			String query = "select folder_id from patients_folder where patient="+PID;
-			pst = connection.prepareStatement(query);
-			rst = pst.executeQuery();
-			while(rst.next()) {
-				folder_id = rst.getInt("folder_id");	
+	public void DoTheMainWork() {
+		if(JOptionPane.showConfirmDialog(null,"Edit Vitals For Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
+			PreparedStatement pstm = null;
+			try {
+				search.connection = SqlitePatientConnection.dbConnector();
+				String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID="+search.getFolderID()+" and date_created ='"+search.TodaysDate()+"'";
+				pstm = search.connection.prepareStatement(query1);
+				pstm.execute();
+				JOptionPane.showMessageDialog(null, "Patient's Vitals has successfully been edited");
+				
+				pstm.close();
+			}catch(Exception ef) {
+				JOptionPane.showMessageDialog(null, "There was a problem editing Patient'st vitals.");
+				ef.printStackTrace();
 			}
-			pst.close();
-			rst.close();			
 		}
-		return folder_id;
 		
-		}catch(Exception ee) {
-			JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
-			ee.printStackTrace();
-			return -1;
-		}
+		
 	}
+	
+	
 	
 	public String getVitalsInfo() {
 		PreparedStatement pstm = null;
 		ResultSet rstt = null;
 		String vitals_information = "";
 		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "select vitals_information from folder_files where folderID= "+folder_id +" and date_created='"+TodaysDate()+"'";
-			pstm = connection.prepareStatement(query1);
+			search.connection = SqlitePatientConnection.dbConnector();
+			String query1 = "select vitals_information from folder_files where folderID= "+search.getFolderID() +" and date_created='"+search.TodaysDate()+"'";
+			pstm = search.connection.prepareStatement(query1);
 			rstt = pstm.executeQuery();
-			//JOptionPane.showMessageDialog(null, "Vitals has been successfully added to Patient File");
 			while(rstt.next()) {
 				vitals_information = rstt.getString("vitals_information");
 			}
@@ -112,57 +81,35 @@ public class EditPatientVitalsInfo extends Search {
 			return null;
 		}
 	}
+
 	
-	public void PopulateFirstNameandLastNameField() {
-		try {
-			connection = SqlitePatientConnection.dbConnector();
-			int row = table.getSelectedRow();
-			PID = (int)table.getModel().getValueAt(row, 0);
-			String query = "select firstname,lastname from patients where patient_id = "+PID;
-			PreparedStatement pst = connection.prepareStatement(query);
-			ResultSet rst = pst.executeQuery();
-			
-			while(rst.next()) {
-				firstnamefield.setText(rst.getString("firstname"));
-				lastnamefield.setText(rst.getString("lastname"));
-			}
-			rst.close();
-			pst.close();
-			
-		}catch(Exception et) {
-			et.printStackTrace();
-		}
+	public void PopulateFirstAndLastName() {	
+		int row = search.table.getSelectedRow();
+		search.setPatientID((int)search.table.getModel().getValueAt(row, 0));
+		this.firstnamefield.setText((String)search.table.getModel().getValueAt(row, 1));
+		this.lastnamefield.setText((String)search.table.getModel().getValueAt(row, 2));
+		search.setFirstName((String)search.table.getModel().getValueAt(row, 1));
+		search.setLastName((String)search.table.getModel().getValueAt(row, 2));
 	}
 	
-	public void updateVitalsInformation() {
-		PreparedStatement pstm = null;
-		try {
-			connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set vitals_information='"+editorPane.getText()+"' where folderID="+folder_id+" and date_created ='"+TodaysDate()+"'";
-			pstm = connection.prepareStatement(query1);
-			pstm.execute();
-			JOptionPane.showMessageDialog(null, "Patient's Vitals has successfully been edited");
-			
-			pstm.close();
-		}catch(Exception ef) {
-			JOptionPane.showMessageDialog(null, "There was a problem editing Patient'st vitals.");
-			ef.printStackTrace();
-		}
-		
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public EditPatientVitalsInfo() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		contentPane.add(this.panel);
 		contentPane.setLayout(null);
+
+		
+		panel = search.panel;
+		panel.setBounds(10, 11, 613, 519);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -191,10 +138,23 @@ public class EditPatientVitalsInfo extends Search {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateVitalsInformation();
-				JComponent comp = (JComponent) e.getSource();
-				  Window win = SwingUtilities.getWindowAncestor(comp);  
-				  win.dispose();    //dispose off this frame
+				if(firstnamefield.getText().isBlank() && lastnamefield.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Search And Select Patient in the Left Pane Before You Can Edit Vitals");
+				}else {
+					search.SetTheFolderID();
+					search.getTheDateCreated();
+					if(!search.getdate_created().equals(search.TodaysDate())) {
+						JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+					}
+					else {
+						DoTheMainWork();
+						JComponent comp = (JComponent) e.getSource();
+						  Window win = SwingUtilities.getWindowAncestor(comp);  
+						  win.dispose();    //dispose off this frame
+					}
+					
+				}
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -221,11 +181,11 @@ public class EditPatientVitalsInfo extends Search {
 		lastnamefield.setBounds(780, 124, 143, 20);
 		contentPane.add(lastnamefield);
 		
-		table.addMouseListener(new MouseAdapter() {
+		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PopulateFirstNameandLastNameField();
-				folder_id = getFolderID();
+				PopulateFirstAndLastName();
+				search.SetTheFolderID();
 				editorPane.setText(getVitalsInfo());
 			}
 		});

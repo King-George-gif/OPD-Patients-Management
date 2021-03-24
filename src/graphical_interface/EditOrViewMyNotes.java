@@ -4,11 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -16,26 +21,23 @@ import javax.swing.border.EmptyBorder;
 
 import database_management.SqlitePatientConnection;
 
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-public class OrderLabForPatient extends JFrame {
+public class EditOrViewMyNotes extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel lblNewLabel, lblNewLabel_1,lblNewLabel_2,lblNewLabel_3,lblNewLabel_4;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
 	private JEditorPane editorPane;
 	JPanel panel;
 	Search search = new Search();
-	
+
+
 	
 	public void PopulateFirstAndLastName() {
 		int row = search.table.getSelectedRow();
@@ -45,25 +47,38 @@ public class OrderLabForPatient extends JFrame {
 		lblNewLabel_4.setText(search.getFirstName()+" "+search.getLastName());
 	}
 	
+	
 	public void DoTheMainWork() {
-		if(JOptionPane.showConfirmDialog(null,"Add Lab(s) to Patient with \n First Name = "+search.getFirstName()+" \n and Last Name = "+search.getLastName()+" ","Vitals Information Confirmation", JOptionPane.YES_NO_OPTION)== 0) {
 			search.SetTheFolderID();
-			addLabToPatientFile();
-		}
+			showNotes();
+		
 		
 	}
 	
-	public void addLabToPatientFile() {
+	public void showNotes() {
+		String notes = "VITALS";
 		try {
 			search.connection = SqlitePatientConnection.dbConnector();
-			String query1 = "update folder_files set labs_ordered='"+editorPane.getText()+"' where folderID= "+search.getFolderID() +" and date_created='"+search.TodaysDate()+"'";
+			String query1 = "select Diagnosis_information, labs_ordered, vitals_information, prescribed_drugs, lab_results from folder_files where folderID= "+search.getFolderID()+" and date_created='"+search.TodaysDate()+"'";
 			PreparedStatement pstm = search.connection.prepareStatement(query1);
-			pstm.execute();
-			JOptionPane.showMessageDialog(null, "Labs has been successfully added to Patient File");
+			ResultSet rstt = pstm.executeQuery();
+			while(rstt.next()) {
+				notes += rstt.getString("vitals_information");
+				notes += "\n\n DIAGNOSIS INFORMATION \n ";
+				notes += rstt.getString("Diagnosis_information");
+				notes += "\n\n LABS ORDERED \n ";
+				notes += rstt.getString("labs_ordered");
+				notes += "\n\n LAB RESULTS \n ";
+				notes += rstt.getString("lab_results");
+				notes += "\n\n DRUGS PRESCRIBED \n ";
+				notes += rstt.getString("prescribed_drugs");
+			}
+			editorPane.setText(notes);
+			rstt.close();
 			pstm.close();
 			
 		}catch(Exception ef) {
-			JOptionPane.showMessageDialog(null, "There was a problem adding Labs to Patient's File.\n Please Try Again Or Contact Adminstrator for help");
+			JOptionPane.showMessageDialog(null, "There was a problem adding Diagnosis to Patient's File");
 			ef.printStackTrace();
 		}
 	}
@@ -71,11 +86,14 @@ public class OrderLabForPatient extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OrderLabForPatient() {
+	
+	
+	public EditOrViewMyNotes() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -89,20 +107,21 @@ public class OrderLabForPatient extends JFrame {
 		separator.setBounds(623, 10, 6, 502);
 		contentPane.add(separator);
 		
-		lblNewLabel = new JLabel("ORDER LAB(S) FOR PATIENT IN THE TEXT EDITOR BELOW");
+		
+		lblNewLabel = new JLabel("VIEW PATIENT FILE NOTES FOR THE DAY");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(639, 54, 422, 30);
 		contentPane.add(lblNewLabel);
 		
-		lblNewLabel_1 = new JLabel("ORDER LABS SECTION");
+		lblNewLabel_1 = new JLabel("PATIENT FILE NOTES");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(710, 10, 285, 44);
 		contentPane.add(lblNewLabel_1);
 		
-		lblNewLabel_2 = new JLabel("Search For Patient Name In The Left Pane Before Ordering The Labs");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_2 = new JLabel("Search And Select Name In The Left Pane To View Patient File For Today");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_2.setBounds(639, 84, 422, 25);
 		contentPane.add(lblNewLabel_2);
 		
@@ -117,45 +136,27 @@ public class OrderLabForPatient extends JFrame {
 		contentPane.add(lblNewLabel_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(639, 172, 435, 278);
+		scrollPane.setBounds(639, 169, 431, 380);
 		contentPane.add(scrollPane);
 		
 		editorPane = new JEditorPane();
-		editorPane.setFont(new Font("Tahoma", Font.BOLD, 13));
 		scrollPane.setViewportView(editorPane);
-		
-		JButton btnNewButton = new JButton("ADD LAB(S) TO PATIENT FILE");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(lblNewLabel_4.getText().isBlank()) {
-					JOptionPane.showMessageDialog(null, "Search And Select For Patient In The Left Pane First.");
-				}else {
-					search.SetTheFolderID();
-					search.getTheDateCreated();
-					if(!search.getdate_created().equals(search.TodaysDate())) {
-						JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
-					}else {
-						DoTheMainWork();
-						JComponent comp = (JComponent) e.getSource();
-						  Window win = SwingUtilities.getWindowAncestor(comp);  
-						  win.dispose();    //dispose off this frame
-					}
-					
-				}
-			}
-		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton.setBounds(744, 474, 212, 38);
-		contentPane.add(btnNewButton);
 		
 		search.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();
+				search.SetTheFolderID();
+				search.getTheDateCreated();
+				if(!search.getdate_created().equals(search.TodaysDate())) {
+					JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+				}
+				else {
+					DoTheMainWork();
+				}
+				
 			}
 		});
-		
-		
 	}
+
 }
