@@ -114,9 +114,15 @@ public class AddVitalsToPatientFile extends JFrame {
 				if(firstnamefield.getText().isBlank() && lastnamefield.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Search And Select Patient in the Left Pane Before Adding Vitals");
 				}
-				else {
+				else {					
 					search.SetTheFolderID();
-					DoTheMainWork();
+					search.getTheDateCreated();
+					if(!search.getdate_created().equals(search.TodaysDate()) ) {
+						JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+					}else {
+						DoTheMainWork();
+					}
+
 					
 				}
 						
