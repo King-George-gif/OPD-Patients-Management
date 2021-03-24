@@ -146,7 +146,15 @@ public class EditOrViewMyNotes extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PopulateFirstAndLastName();
-				DoTheMainWork();
+				search.SetTheFolderID();
+				search.getTheDateCreated();
+				if(!search.getdate_created().equals(search.TodaysDate())) {
+					JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+				}
+				else {
+					DoTheMainWork();
+				}
+				
 			}
 		});
 	}

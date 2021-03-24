@@ -61,6 +61,7 @@ import java.util.GregorianCalendar;
 	private int PID = -1;
 	private String firstname;
 	private String lastname;
+	private String date_created;
 	private JButton btnNewButton_1;
 
 
@@ -90,6 +91,33 @@ import java.util.GregorianCalendar;
 		
 	}
 	
+	
+	public void getTheDateCreated() {
+		SetTheFolderID();
+		PreparedStatement pst = null;
+		ResultSet rst = null;
+
+			try { 
+					connection = SqlitePatientConnection.dbConnector();
+					String query = "select date_created from folder_files where folderID="+this.getFolderID();
+					pst = connection.prepareStatement(query);
+					rst = pst.executeQuery();
+					while(rst.next()) {
+						this.setdate_created(rst.getString("date_created"));
+						
+					}
+					pst.close();
+					rst.close();				
+				
+				
+				}catch(Exception ee) {
+					JOptionPane.showMessageDialog(null, "There is a Problem. Please try Again Later");
+					ee.printStackTrace();
+				}
+		
+		
+	}
+	
 	public ResultSet SearchResults(String field, String value) {
 		try {
 		String query = "select patient_id as 'Patient ID', firstname as 'First Name', lastname as 'Surname', Residence, date_of_birth as 'Date Of Birth', sex as 'Gender' from patients where "+field+" =?";
@@ -103,6 +131,14 @@ import java.util.GregorianCalendar;
 		}
 		
 		
+	}
+	
+	public void setdate_created(String date_created) {
+		this.date_created = date_created;
+	}
+	
+	public String getdate_created() {
+		return this.date_created;
 	}
 	
 	public void setFolderID(int folder_id) {

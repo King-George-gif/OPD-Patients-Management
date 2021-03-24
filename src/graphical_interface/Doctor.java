@@ -85,6 +85,12 @@ public class Doctor extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_1.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangeLoginDetails frame = new ChangeLoginDetails();
+				frame.setTitle("Existing/Old Details");
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setBorder(null);
@@ -170,24 +176,6 @@ public class Doctor extends JFrame {
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton_4.setBounds(41, 155, 387, 42);
 		panel_2.add(btnNewButton_4);
-		
-		JButton btnNewButton_5 = new JButton("VIEW PATIENT DIAGNOSIS/HEALTH HISTORY");
-		btnNewButton_5.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnNewButton_5.setBackground(new Color(0, 206, 209));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				btnNewButton_5.setBackground(new Color(0, 128, 128));
-			}
-		});
-		btnNewButton_5.setBorder(null);
-		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(new Color(0, 128, 128));
-		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_5.setBounds(41, 290, 387, 42);
-		panel_2.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("VIEW PATIENT FILE FOR TODAY");
 		btnNewButton_6.addMouseListener(new MouseAdapter() {

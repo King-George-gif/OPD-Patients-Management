@@ -5,24 +5,6 @@ public class DoctorClass extends Staff {
 		super(firstname, lastname);
 	}
 	
-	public void PrescribeDrugs(String drugs) {
-		
-	}
 	
-	public void AddDiagnosisNote(String diagnosisNote) {
-		
-	}
-	
-	public void AssignPatientToLabTechnician() {
-		
-	}
-	
-	public void OrderLabs(String labTestName) {
-		
-	}
-	
-	public void AssignPatientToPharmacist() {
-		
-	}
 
 }

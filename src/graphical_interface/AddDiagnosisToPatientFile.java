@@ -125,10 +125,17 @@ public class AddDiagnosisToPatientFile extends JFrame {
 				if(lblNewLabel_4.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Search And Select For Patient In The Left Pane.");
 				}else {
-					DoTheMainWork();
-					JComponent comp = (JComponent) e.getSource();
-					  Window win = SwingUtilities.getWindowAncestor(comp);  
-					  win.dispose();    //dispose off this frame
+					search.SetTheFolderID();
+					search.getTheDateCreated();
+					if(!search.getdate_created().equals(search.TodaysDate())) {
+						JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+					}else {
+						DoTheMainWork();
+						JComponent comp = (JComponent) e.getSource();
+						  Window win = SwingUtilities.getWindowAncestor(comp);  
+						  win.dispose();    //dispose off this frame
+					}
+					
 				}
 			}
 		});

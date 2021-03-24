@@ -141,10 +141,18 @@ public class EditPatientVitalsInfo extends JFrame {
 				if(firstnamefield.getText().isBlank() && lastnamefield.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Search And Select Patient in the Left Pane Before You Can Edit Vitals");
 				}else {
-					DoTheMainWork();
-					JComponent comp = (JComponent) e.getSource();
-					  Window win = SwingUtilities.getWindowAncestor(comp);  
-					  win.dispose();    //dispose off this frame
+					search.SetTheFolderID();
+					search.getTheDateCreated();
+					if(!search.getdate_created().equals(search.TodaysDate())) {
+						JOptionPane.showMessageDialog(null, "File has not been created for the Patient Today.\nContact the Receptionist on duty.");
+					}
+					else {
+						DoTheMainWork();
+						JComponent comp = (JComponent) e.getSource();
+						  Window win = SwingUtilities.getWindowAncestor(comp);  
+						  win.dispose();    //dispose off this frame
+					}
+					
 				}
 				
 			}

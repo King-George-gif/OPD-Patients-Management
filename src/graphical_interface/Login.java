@@ -204,15 +204,7 @@ public class Login {
 								doctor.setTitle("Doctors Dashboard");
 								doctor.setVisible(true);
 							}
-							else if(designation == 6) {
-								//lab technician page
-							}
-							else if(designation == 7) {
-								//pharmacist page
-							}
-							else if(designation == 8) {
-								//accountant page
-							}
+							
 							
 							queryoutputlabel.setText("Valid username and password");
 						}
