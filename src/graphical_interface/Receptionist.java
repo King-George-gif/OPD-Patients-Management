@@ -53,8 +53,7 @@ public class Receptionist extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Welcome Receptionist "+this.receptionist.getLastName());
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 9, 284, 25);
+		lblNewLabel.setBounds(10, 9, 249, 25);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_3 = new JButton("Log Out");
@@ -95,6 +94,12 @@ public class Receptionist extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_4.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangeLoginDetails frame = new ChangeLoginDetails();
+				frame.setTitle("Existing/Old Details");
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_4.setForeground(Color.WHITE);
 		btnNewButton_4.setBackground(new Color(0, 128, 128));
@@ -122,7 +127,7 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				EditPatientProfile patientProfile = new EditPatientProfile();
-				patientProfile.setTitle("Edit Patients Title");
+				patientProfile.setTitle("Edit Patients Profile");
 				patientProfile.setVisible(true);
 			}
 		});
@@ -171,7 +176,7 @@ public class Receptionist extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				CreatePatientFile frame = new CreatePatientFile();
-				frame.setTitle("Create File For Patients");
+				frame.setTitle("Create New File For Patients");
 				frame.setVisible(true);
 			}
 		});

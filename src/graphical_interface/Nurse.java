@@ -88,6 +88,12 @@ public class Nurse extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				btnNewButton_3.setBackground(new Color(0, 128, 128));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangeLoginDetails frame = new ChangeLoginDetails();
+				frame.setTitle("Existing/Old Details");
+				frame.setVisible(true);
+			}
 		});
 		btnNewButton_3.setBackground(new Color(0, 128, 128));
 		btnNewButton_3.setForeground(Color.WHITE);
