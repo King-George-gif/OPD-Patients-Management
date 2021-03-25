@@ -1,5 +1,6 @@
 package database_management;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -9,9 +10,12 @@ public class SqlitePatientConnection {
 	
 	Connection conn = null;
 	public static Connection dbConnector() {
+		File dbfile=new File("Databases");
+	    String url="jdbc:sqlite:"+dbfile.getAbsolutePath()+"\\patients.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\King George\\eclipse-workspace\\OPD Patients Management\\Databases\\patients.sqlite");
+//			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\King George\\eclipse-workspace\\OPD Patients Management\\Databases\\patients.sqlite");
+			Connection conn = DriverManager.getConnection(url);
 			return conn;
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
